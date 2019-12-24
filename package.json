@@ -1,0 +1,68 @@
+{
+    "name": "tinyield4ts-benchmark",
+    "version": "0.0.0",
+    "description": "This project benchmarks different types sequences to see which performs best",
+    "main": "build/index.js",
+    "types": "build/index.d.ts",
+    "repository": {
+        "url": "https://github.com/tinyield/tinyield4ts-benchmark.git",
+        "type": "git"
+    },
+    "contributors": [
+        {
+            "name": "Fernando Miguel Gamboa de Carvalho",
+            "email": "mcarvalho@cc.isel.ipl.pt",
+            "url": "http://gamboa.pt/"
+        },
+        {
+            "name": "Diogo Poeira",
+            "email": "diogopoeira91@gmail.com"
+        }
+    ],
+    "files": [
+        "build"
+    ],
+    "license": "Apache-2.0",
+    "keywords": [
+        "tinyield",
+        "benchmark"
+    ],
+    "scripts": {
+        "benchmark": "node --no-warnings ./build/index.js",
+        "fix": "gts fix",
+        "compile": "tsc -p . && npm run copy-assets",
+        "clean": "gts clean",
+        "precompile": "npm run clean",
+        "precommit": "pretty-quick --staged",
+        "copy-assets": "copyfiles ./src/assets/**.* ./build/assets -f",
+        "prebenchmark": "npm run compile"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.ts": "prettier --check"
+    },
+    "devDependencies": {
+        "@types/benchmark": "^1.0.31",
+        "@types/lazy.js": "^0.5.0",
+        "copyfiles": "^2.1.1",
+        "gts": "^1.0.0",
+        "husky": "^3.1.0",
+        "pretty-quick": "^1.11.1",
+        "tslint": "^5.10.0",
+        "tslint-config-standard-plus": "^2.3.0",
+        "typescript": "~3.7.0",
+        "lint-staged": "^9.5.0",
+        "mrm": "^2.0.2"
+    },
+    "dependencies": {
+        "benchmark": "^2.1.4",
+        "ix": "^2.5.3",
+        "lazy.js": "^0.5.1",
+        "rxjs": "^6.5.2",
+        "tinyield4ts": "0.1.0"
+    }
+}
