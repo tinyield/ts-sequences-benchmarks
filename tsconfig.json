@@ -1,0 +1,13 @@
+{
+    "extends": "./node_modules/gts/tsconfig-google.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "build",
+      "target": "es5",
+      "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "strictNullChecks": false,
+        "lib": ["es2016", "dom", "esnext", "esnext.asynciterable"]
+    },
+    "include": ["src/**/*.ts", "test/**/*.ts"]
+}
