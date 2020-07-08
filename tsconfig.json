@@ -2,12 +2,28 @@
     "extends": "./node_modules/gts/tsconfig-google.json",
     "compilerOptions": {
         "rootDir": "src",
+        "sourceMap": true,
+        "target": "es5",
+        "declaration": true,
+        "resolveJsonModule": true,
         "outDir": "build",
-      "target": "es5",
-      "noImplicitAny": true,
+        "noImplicitAny": true,
         "noImplicitReturns": true,
+        "alwaysStrict": true,
+        "strict": true,
+        "allowUnreachableCode": false,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "noImplicitThis": true,
+        "strictFunctionTypes": true,
+        "noUnusedLocals": true,
         "strictNullChecks": false,
-        "lib": ["es2016", "dom", "esnext", "esnext.asynciterable"]
+        "lib": [
+            "es2016",
+            "dom",
+            "esnext",
+            "esnext.asynciterable"
+        ]
     },
     "include": ["src/**/*.ts", "test/**/*.ts"]
 }

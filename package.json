@@ -1,5 +1,5 @@
 {
-    "name": "tinyield4ts-benchmark",
+    "name": "ts-sequences-benchmark",
     "version": "0.0.0",
     "description": "This project benchmarks different types sequences to see which performs best",
     "main": "build/index.js",
@@ -16,7 +16,8 @@
         },
         {
             "name": "Diogo Poeira",
-            "email": "diogopoeira91@gmail.com"
+            "email": "diogopoeira91@gmail.com",
+            "url": "https://www.linkedin.com/in/dpoeira91/"
         }
     ],
     "files": [
@@ -28,14 +29,17 @@
         "benchmark"
     ],
     "scripts": {
-        "benchmark": "node --no-warnings ./build/index.js",
-        "fix": "gts fix",
-        "compile": "tsc -p . && npm run copy-assets",
+        "benchmark": "node --no-warnings ./build/lib/index.js FlatmapAndReduceBenchmark",
+        "fix:code-style": "gts fix",
+        "test": "karma start",
+        "check:code-style": "gts check",
+        "sonar": "node analyse.js",
+        "build": "tsc -p ./tsconfig.bench.json && npm run copy-assets",
         "clean": "gts clean",
-        "precompile": "npm run clean",
-        "precommit": "pretty-quick --staged",
-        "copy-assets": "copyfiles ./src/assets/**.* ./build/assets -f",
-        "prebenchmark": "npm run compile"
+        "copy-assets": "copyfiles ./src/assets/**/**.* ./build/assets --up 2",
+        "pretest": "npm run clean && npm run build",
+        "prebuild": "npm run clean",
+        "prebenchmark": "npm run build"
     },
     "husky": {
         "hooks": {
@@ -46,23 +50,40 @@
         "*.ts": "prettier --check"
     },
     "devDependencies": {
+        "@babel/plugin-transform-spread": "^7.10.4",
         "@types/benchmark": "^1.0.31",
-        "@types/lazy.js": "^0.5.0",
+        "@types/jasmine": "^2.8.7",
+        "@types/lazy.js": "^0.5.2",
+        "@types/lodash": "^4.14.157",
+        "@types/node": "^10.16.3",
+        "@types/underscore": "^1.10.4",
         "copyfiles": "^2.1.1",
-        "gts": "^1.0.0",
+        "gts": "^1.1.2",
         "husky": "^3.1.0",
-        "pretty-quick": "^1.11.1",
+        "jasmine-core": "^3.5.0",
+        "karma": "^4.4.1",
+        "karma-chrome-launcher": "^3.1.0",
+        "karma-coverage-istanbul-reporter": "^2.1.1",
+        "karma-jasmine": "^2.0.1",
+        "karma-jasmine-html-reporter": "^1.4.2",
+        "karma-spec-reporter": "0.0.32",
+        "karma-typescript": "^5.0.3",
+        "karma-typescript-es6-transform": "^5.0.3",
+        "lint-staged": "^9.5.0",
+        "mrm": "^2.0.2",
+        "sonarqube-scanner": "^2.6.0",
+        "ts-mocks": "^3.0.1",
         "tslint": "^5.10.0",
         "tslint-config-standard-plus": "^2.3.0",
-        "typescript": "~3.7.0",
-        "lint-staged": "^9.5.0",
-        "mrm": "^2.0.2"
+        "typescript": "3.7.5"
     },
     "dependencies": {
         "benchmark": "^2.1.4",
-        "ix": "^2.5.3",
+        "ix": "^2.5.5",
         "lazy.js": "^0.5.1",
+        "lodash": "^4.17.15",
         "rxjs": "^6.5.2",
-        "tinyield4ts": "0.1.0"
+        "tinyield4ts": "^1.0.3",
+        "underscore": "^1.10.2"
     }
 }
