@@ -1,30 +1,36 @@
 import {Event, Options, Suite} from 'benchmark';
+import {ResultExporter} from './result-exporter';
+import {getCLIArguments} from './benchmark-cli-arguments';
 
 function onComplete(result: Event): void {
-    console.log(result.target.toString());
+    const message: string = result.target.toString();
+    console.log(message);
+    ResultExporter.instance().appendLine(message);
 }
 
-export function options(samples = 300, time = 5): Options {
+export function options(): Options {
+    const args = getCLIArguments();
     return {
         onComplete,
         onError: console.error,
-        minSamples: samples,
-        minTime: undefined,
+        minSamples: args.samples,
+        minTime: args.time,
     };
 }
 
 export function blackhole<T>(elem: T): void {}
 
 export function getSuite(name: string): Suite {
+    const exporter = ResultExporter.instance();
     console.log(name);
+    exporter.appendLine(name);
     const suite = new Suite(name);
     return suite
-        .on('cicle', (evt: any) => {
-            console.log(String(evt.target));
-        })
         .on('error', (evt: any) => console.log(evt))
         .on('complete', () => {
             const fastest: any[] = suite.filter('fastest').map((value: any) => value.name);
-            console.log(`Fastest for [ ${name} ] is [ ${fastest} ] \n`);
+            const message = `[ ${fastest} ] is the fastest for [ ${name} ]`;
+            console.log(message);
+            exporter.appendLine(message);
         });
 }

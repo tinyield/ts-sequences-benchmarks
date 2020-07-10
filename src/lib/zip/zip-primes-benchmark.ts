@@ -1,9 +1,10 @@
 import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
+import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
 
 export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     name(): string {
-        return 'Zip Primes with Values';
+        return `Zip Primes with Values ${getCollectionSizeLabel()}`;
     }
 
     ix(): void {

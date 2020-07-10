@@ -1,9 +1,10 @@
 import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
+import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
 
 export class FirstInBeginningBenchmark extends AbstractSequenceBenchmark {
     name(): string {
-        return 'First in Beginning';
+        return `First in Beginning ${getCollectionSizeLabel()}`;
     }
 
     ix(): void {

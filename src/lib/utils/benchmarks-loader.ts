@@ -10,54 +10,68 @@ import {FirstInBeginningBenchmark} from '../first/first-in-beginning-benchmark';
 import {FirstInMiddleBenchmark} from '../first/first-in-middle-benchmark';
 import {FirstInEndBenchmark} from '../first/first-in-end-benchmark';
 import {FlatmapAndReduceBenchmark} from '../flatmap/flatmap-and-reduce-benchmark';
+import {FindClassBenchmark} from '../find/find-class-benchmark';
+import {FindFixedIndexBenchmark} from '../find/find-fixed-index-benchmark';
+import {FindNumberBenchmark} from '../find/find-number-benchmark';
+import {FindStringBenchmark} from '../find/find-string-benchmark';
+import {BenchmarkCliArguments} from './benchmark-cli-arguments';
 
 enum Benchmarks {
-    ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK = 'ZipTopArtistAndTrackByCountryBenchmark',
     ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK = 'ArtistsInTopTenWithTopTenTracksByCountryBenchmark',
-    ZIP_PRIMES_BENCHMARK = 'ZipPrimesBenchmark',
-    ALL_MATCH_BENCHMARK = 'AllMatchBenchmark',
-    EVERY_CLASS_BENCHMARK = 'EveryClassBenchmark',
+    ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK = 'ZipTopArtistAndTrackByCountryBenchmark',
+    FIRST_IN_BEGINNING_BENCHMARK = 'FirstInBeginningBenchmark',
+    FLATMAP_AND_REDUCE_BENCHMARK = 'FlatmapAndReduceBenchmark',
+    FIND_FIXED_INDEX_BENCHMARK = 'FindFixedIndexBenchmark',
+    FIRST_IN_MIDDLE_BENCHMARK = 'FirstInMiddleBenchmark',
     EVERY_NUMBER_BENCHMARK = 'EveryNumberBenchmark',
     EVERY_STRING_BENCHMARK = 'EveryStringBenchmark',
-    FIRST_IN_BEGINNING_BENCHMARK = 'FirstInBeginningBenchmark',
-    FIRST_IN_MIDDLE_BENCHMARK = 'FirstInMiddleBenchmark',
     FIRST_IN_END_BENCHMARK = 'FirstInEndBenchmark',
-    FLATMAP_AND_REDUCE_BENCHMARK = 'FlatmapAndReduceBenchmark',
+    EVERY_CLASS_BENCHMARK = 'EveryClassBenchmark',
+    FIND_NUMBER_BENCHMARK = 'FindNumberBenchmark',
+    FIND_STRING_BENCHMARK = 'FindStringBenchmark',
+    ZIP_PRIMES_BENCHMARK = 'ZipPrimesBenchmark',
+    FIND_CLASS_BENCHMARK = 'FindClassBenchmark',
+    ALL_MATCH_BENCHMARK = 'AllMatchBenchmark',
 }
 
 const BENCHMARK_NAMES = [
-    Benchmarks.ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK,
     Benchmarks.ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK,
-    Benchmarks.ZIP_PRIMES_BENCHMARK,
-    Benchmarks.ALL_MATCH_BENCHMARK,
-    Benchmarks.EVERY_CLASS_BENCHMARK,
+    Benchmarks.ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK,
+    Benchmarks.FIRST_IN_BEGINNING_BENCHMARK,
+    Benchmarks.FLATMAP_AND_REDUCE_BENCHMARK,
+    Benchmarks.FIND_FIXED_INDEX_BENCHMARK,
+    Benchmarks.FIRST_IN_MIDDLE_BENCHMARK,
     Benchmarks.EVERY_NUMBER_BENCHMARK,
     Benchmarks.EVERY_STRING_BENCHMARK,
-    Benchmarks.FIRST_IN_BEGINNING_BENCHMARK,
-    Benchmarks.FIRST_IN_MIDDLE_BENCHMARK,
     Benchmarks.FIRST_IN_END_BENCHMARK,
-    Benchmarks.FLATMAP_AND_REDUCE_BENCHMARK,
+    Benchmarks.EVERY_CLASS_BENCHMARK,
+    Benchmarks.FIND_NUMBER_BENCHMARK,
+    Benchmarks.FIND_STRING_BENCHMARK,
+    Benchmarks.FIND_CLASS_BENCHMARK,
+    Benchmarks.ZIP_PRIMES_BENCHMARK,
+    Benchmarks.ALL_MATCH_BENCHMARK,
 ];
 const BENCHMARK_DICTIONARY: {[key: string]: Benchmark} = {
-    [Benchmarks.ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK]: new ZipTopArtistAndTrackByCountryBenchmark(),
     [Benchmarks.ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK]: new ArtistsInTopTenWithTopTenTracksByCountryBenchmark(),
-    [Benchmarks.ZIP_PRIMES_BENCHMARK]: new ZipPrimesBenchmark(),
-    [Benchmarks.ALL_MATCH_BENCHMARK]: new AllMatchBenchmark(),
-    [Benchmarks.EVERY_CLASS_BENCHMARK]: new EveryClassBenchmark(),
+    [Benchmarks.ZIP_TOP_ARTIST_AND_TRACK_BY_COUNTRY_BENCHMARK]: new ZipTopArtistAndTrackByCountryBenchmark(),
+    [Benchmarks.FIRST_IN_BEGINNING_BENCHMARK]: new FirstInBeginningBenchmark(),
+    [Benchmarks.FLATMAP_AND_REDUCE_BENCHMARK]: new FlatmapAndReduceBenchmark(),
+    [Benchmarks.FIND_FIXED_INDEX_BENCHMARK]: new FindFixedIndexBenchmark(),
+    [Benchmarks.FIRST_IN_MIDDLE_BENCHMARK]: new FirstInMiddleBenchmark(),
     [Benchmarks.EVERY_NUMBER_BENCHMARK]: new EveryNumberBenchmark(),
     [Benchmarks.EVERY_STRING_BENCHMARK]: new EveryStringBenchmark(),
-    [Benchmarks.FIRST_IN_BEGINNING_BENCHMARK]: new FirstInBeginningBenchmark(),
-    [Benchmarks.FIRST_IN_MIDDLE_BENCHMARK]: new FirstInMiddleBenchmark(),
     [Benchmarks.FIRST_IN_END_BENCHMARK]: new FirstInEndBenchmark(),
-    [Benchmarks.FLATMAP_AND_REDUCE_BENCHMARK]: new FlatmapAndReduceBenchmark(),
+    [Benchmarks.EVERY_CLASS_BENCHMARK]: new EveryClassBenchmark(),
+    [Benchmarks.FIND_NUMBER_BENCHMARK]: new FindNumberBenchmark(),
+    [Benchmarks.FIND_STRING_BENCHMARK]: new FindStringBenchmark(),
+    [Benchmarks.ZIP_PRIMES_BENCHMARK]: new ZipPrimesBenchmark(),
+    [Benchmarks.FIND_CLASS_BENCHMARK]: new FindClassBenchmark(),
+    [Benchmarks.ALL_MATCH_BENCHMARK]: new AllMatchBenchmark(),
 };
 
-export function getBenchmarks(args: string[]): Benchmark[] {
-    if (args === undefined || args.length <= 2) {
+export function getBenchmarks(args: BenchmarkCliArguments): Benchmark[] {
+    if (args === undefined || args.name === undefined || args.name.length === 0) {
         return BENCHMARK_NAMES.map(name => BENCHMARK_DICTIONARY[name]);
     }
-    return args
-        .filter((arg, idx) => idx > 1 && arg !== undefined && arg.length > 0)
-        .map(arg => BENCHMARK_NAMES.find(name => name.toLowerCase().startsWith(arg.toLowerCase())))
-        .map(name => BENCHMARK_DICTIONARY[name]);
+    return BENCHMARK_NAMES.filter(name => name.toLowerCase().startsWith(args.name.toLowerCase())).map(name => BENCHMARK_DICTIONARY[name]);
 }

@@ -1,9 +1,10 @@
 import {blackhole} from '../utils/benchmark-utils';
 import {AbstractZipBenchmark} from '../zip/abstract-zip-benchmark';
+import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
 
 export class EveryStringBenchmark extends AbstractZipBenchmark {
     name(): string {
-        return 'Every String';
+        return `Every String ${getCollectionSizeLabel()}`;
     }
 
     ix(): void {

@@ -1,9 +1,10 @@
 import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
+import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
 
 export class FlatmapAndReduceBenchmark extends AbstractSequenceBenchmark {
     name(): string {
-        return 'Flatmap and Reduce';
+        return `Flatmap and Reduce ${getCollectionSizeLabel()}`;
     }
 
     ix(): void {
