@@ -24,10 +24,10 @@ jobs:
                 run: npm run build
 
             -   name: Run Benchmark [COLLECTION_SIZE = 1K]
-                run: node --no-warnings ./build/lib/index.js -n FirstInBeginningBenchmark -s 1000 -i 10 -t 10 -o First[Beginning]-1K.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n FirstInBeginningBenchmark -s 1000 -i 30 -t 30 -o First[Beginning]-1K.log
 
             -   name: Run Benchmark [COLLECTION_SIZE = 100K]
-                run: node --no-warnings ./build/lib/index.js -n FirstInBeginningBenchmark -s 100000 -i 10 -t 10 -o First[Beginning]-100K.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n FirstInBeginningBenchmark -s 100000 -i 30 -t 30 -o First[Beginning]-100K.log
 
             -   name: Upload results
                 uses: actions/upload-artifact@v2
