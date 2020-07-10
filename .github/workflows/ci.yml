@@ -1,0 +1,27 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    CI:
+        name: CI
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v1
+            -   name: Use Node.js 10
+                uses: actions/setup-node@v1
+                with:
+                    node-version: 10
+
+            -   name: npm install, build, lint and test
+                run: |
+                    npm clean-install
+                    npm run check:code-style
+                    npm run build
+                    npm test
