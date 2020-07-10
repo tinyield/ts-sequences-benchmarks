@@ -1,9 +1,22 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "types": [
-      "jasmine",
-      "node"
-    ]
-  }
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "sourceMap": true,
+        "target": "es5",
+        "noImplicitAny": false,
+        "resolveJsonModule": true,
+        "importHelpers": true,
+        "lib": [
+            "es2016",
+            "dom",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+        "types": [
+            "mocha",
+            "chai",
+            "node"
+        ]
+    }
 }

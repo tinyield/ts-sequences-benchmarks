@@ -20,12 +20,12 @@ export class UnderscoreOperations {
     zipTopArtistAndTrackByCountry(
         artists: _._Chain<Pair<Country, _._Chain<Artist, Artist[]>>, Pair<Country, _._Chain<Artist, Artist[]>>[]>,
         tracks: _._Chain<Pair<Country, _._Chain<Track, Track[]>>, Pair<Country, _._Chain<Track, Track[]>>[]>
-    ): _._Chain<Triplet<Country, Artist, Track>> {
+    ): _._Chain<Triplet<Country, Artist, Track>, Triplet<Country, Artist, Track>[]> {
         return zip(artists, tracks)
             .map(pair => {
                 return new Triplet(pair.left.left, pair.left.right.first().value(), pair.right.right.first().value());
             })
-            .unique(trio => trio.center.mbid);
+            .unique(trio => trio.center.mbid) as any;
     }
 
     artistsInTopTenWithTopTenTracksByCountry(

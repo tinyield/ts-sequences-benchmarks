@@ -1,13 +1,22 @@
 import {Country} from '../../lib/operations/model/country/country';
-import {Mock} from 'ts-mocks';
 import {Language} from '../../lib/operations/model/country/language';
 import {Artist} from '../../lib/operations/model/artist/artist';
 import {Track} from '../../lib/operations/model/track/track';
+import {expect} from 'chai';
+
+class Mock<T> {
+    // tslint:disable-next-line:variable-name
+    readonly Object: T;
+
+    constructor(partial: Partial<T>) {
+        this.Object = partial as T;
+    }
+}
 
 export function assertSameArray<T>(actual: T[], expected: T[], id: (elem: T) => any = elem => elem): void {
-    expect(actual.length).toEqual(expected.length);
+    expect(actual.length).to.equal(expected.length);
     for (let i = 0; i < actual.length; i++) {
-        expect(id(actual[i])).toEqual(id(expected[i]));
+        expect(id(actual[i])).to.equal(id(expected[i]));
     }
 }
 
