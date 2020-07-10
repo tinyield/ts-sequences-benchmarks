@@ -1,0 +1,36 @@
+name: First[Beginning]
+
+on:
+    push:
+        branches:
+            - first/beginning
+            - all-benchmarks
+
+jobs:
+    benchmark:
+        name: Benchmark
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v1
+            -   name: Use Node.js 10
+                uses: actions/setup-node@v1
+                with:
+                    node-version: 10
+
+            -   name: Install
+                run: npm clean-install
+
+            -   name: Build
+                run: npm run build
+
+            -   name: Run Benchmark [COLLECTION_SIZE = 1K]
+                run: node --no-warnings ./build/lib/index.js -n FirstInBeginningBenchmark -s 1000 -i 10 -t 10 -o First[Beginning]-1K.log
+
+            -   name: Run Benchmark [COLLECTION_SIZE = 100K]
+                run: node --no-warnings ./build/lib/index.js -n FirstInBeginningBenchmark -s 100000 -i 10 -t 10 -o First[Beginning]-100K.log
+
+            -   name: Upload results
+                uses: actions/upload-artifact@v2
+                with:
+                    name: First[Beginning]
+                    path: ./*.log

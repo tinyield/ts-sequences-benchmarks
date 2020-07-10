@@ -1,0 +1,33 @@
+name: Distinct Top Artist and Top Track by Country Benchmark
+
+on:
+  push:
+    branches:
+      - all-benchmarks
+      - zip/q1
+
+jobs:
+    benchmark:
+        name: Benchmark
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v1
+            -   name: Use Node.js 10
+                uses: actions/setup-node@v1
+                with:
+                    node-version: 10
+
+            -   name: Install
+                run: npm clean-install
+
+            -   name: Build
+                run: npm run build
+
+            -   name: Run Benchmark
+                run: node --no-warnings ./build/lib/index.js -n ZipTopArtistAndTrackByCountryBenchmark -i 10 -t 10 -o zip-top-artist-and-track.log
+
+            -   name: Upload results
+                uses: actions/upload-artifact@v2
+                with:
+                  name: zip-top-artist-and-track
+                  path: zip-top-artist-and-track.log
