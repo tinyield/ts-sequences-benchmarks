@@ -19,7 +19,10 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     }
 
     lodash(): void {
-        this.lodashOps.zipPrimeWithValue(this.lodashUtils.getNumbers(), this.lodashUtils.getValues()).forEach(blackhole);
+        this.lodashOps
+            .zipPrimeWithValue(this.lodashUtils.getNumbers(), this.lodashUtils.getValues())
+            .forEach(blackhole)
+            .value();
     }
 
     tinyield(): void {
@@ -27,7 +30,10 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     }
 
     underscore(): void {
-        this.underscoreOps.zipPrimeWithValue(this.underscoreUtils.getNumbers(), this.underscoreUtils.getValues()).forEach(blackhole);
+        this.underscoreOps
+            .zipPrimeWithValue(this.underscoreUtils.getNumbers(), this.underscoreUtils.getValues())
+            .forEach(blackhole)
+            .value();
     }
 
     zipline(): void {
