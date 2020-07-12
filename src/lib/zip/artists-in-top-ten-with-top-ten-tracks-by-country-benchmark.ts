@@ -1,5 +1,6 @@
 import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
+import {forEach} from '../operations/utils/zipline-utils';
 
 export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZipBenchmark {
     name(): string {
@@ -11,10 +12,7 @@ export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZ
     }
 
     lazy(): void {
-        this.lazyOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.lazyUtils.getArtists(), this.lazyUtils.getTracks())
-            .toArray()
-            .forEach(blackhole);
+        this.lazyOps.artistsInTopTenWithTopTenTracksByCountry(this.lazyUtils.getArtists(), this.lazyUtils.getTracks()).each(blackhole);
     }
 
     lodash(): void {
@@ -38,40 +36,9 @@ export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZ
     }
 
     zipline(): void {
-        this.ziplineOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks())
-            .forEach(blackhole);
-    }
-
-    annouce(): void {
-        console.log(this.name(), 'ixOps - Start');
-        this.ixOps.artistsInTopTenWithTopTenTracksByCountry(this.ixUtils.getArtists(), this.ixUtils.getTracks()).forEach(console.log);
-        console.log(this.name(), 'ixOps - End\n');
-        console.log(this.name(), 'lazyOps - Start');
-        this.lazyOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.lazyUtils.getArtists(), this.lazyUtils.getTracks())
-            .toArray()
-            .forEach(console.log);
-        console.log(this.name(), 'lazyOps - End\n');
-        console.log(this.name(), 'lodashOps - Start');
-        this.lodashOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.lodashUtils.getArtists(), this.lodashUtils.getTracks())
-            .forEach(console.log);
-        console.log(this.name(), 'lodashOps - End\n');
-        console.log(this.name(), 'tinyieldOps - Start');
-        this.tinyieldOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.tinyieldUtils.getArtists(), this.tinyieldUtils.getTracks())
-            .forEach(console.log);
-        console.log(this.name(), 'tinyieldOps - End\n');
-        console.log(this.name(), 'underscoreOps - Start');
-        this.underscoreOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.underscoreUtils.getArtists(), this.underscoreUtils.getTracks())
-            .forEach(console.log);
-        console.log(this.name(), 'underscoreOps - End\n');
-        console.log(this.name(), 'ziplineOps - Start');
-        this.ziplineOps
-            .artistsInTopTenWithTopTenTracksByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks())
-            .forEach(console.log);
-        console.log(this.name(), 'ziplineOps - End\n');
+        forEach(
+            this.ziplineOps.artistsInTopTenWithTopTenTracksByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks()),
+            blackhole
+        );
     }
 }

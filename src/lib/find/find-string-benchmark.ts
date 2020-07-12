@@ -2,6 +2,7 @@ import {AbstractFindBenchmark} from './abstract-find-benchmark';
 import {EvenSequenceDataProvider} from '../operations/data/provider/number/even-sequence-data-provider';
 import {EVEN, ODD} from '../operations/common/constants';
 import {getCLIArguments, getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
+import {toArray} from '../operations/utils/zipline-utils';
 
 export class FindStringBenchmark extends AbstractFindBenchmark<string> {
     private a: string[];
@@ -34,8 +35,8 @@ export class FindStringBenchmark extends AbstractFindBenchmark<string> {
     }
 
     reset(): void {
-        this.a = this.provider.asIterable().map(i => `${i}`);
-        this.b = this.provider.asIterable().map(i => `${i}`);
+        this.a = toArray(this.provider.asIterable()).map(i => `${i}`);
+        this.b = toArray(this.provider.asIterable()).map(i => `${i}`);
     }
 
     update(): void {

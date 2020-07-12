@@ -10,7 +10,11 @@ import {isOdd} from './utils/is-odd';
 import {Artist} from './model/artist/artist';
 
 function zip<T, U>(a: LazyJS.Sequence<T>, b: LazyJS.Sequence<U>): LazyJS.Sequence<Pair<T, U>> {
-    return (a as LazyJS.Sequence<any>).zip(b.toArray()).map((value: any) => new Pair<T, U>(value[0], value[1]));
+    const iterator: {current(): U; moveNext(): boolean} = (b as any).getIterator();
+    return a.map((value: T) => {
+        iterator.moveNext();
+        return new Pair<T, U>(value, iterator.current());
+    });
 }
 
 function distinct<T>(sequence: LazyJS.Sequence<T>, by: (elem: T) => any) {

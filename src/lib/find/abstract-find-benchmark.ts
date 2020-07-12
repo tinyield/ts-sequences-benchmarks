@@ -58,7 +58,7 @@ export abstract class AbstractFindBenchmark<T> extends AbstractZipBenchmark {
 
     zipline(): void {
         this.iterate();
-        this.ziplineOps.find(this.getSourceA(), this.getSourceB(), this.getPredicate());
+        this.ziplineOps.find(this.getSourceA()[Symbol.iterator](), this.getSourceB()[Symbol.iterator](), this.getPredicate());
     }
 
     protected getSuite(): Suite {

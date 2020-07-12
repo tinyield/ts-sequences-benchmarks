@@ -9,7 +9,7 @@ export interface CountryBasedDataProvider<T> {
     asLodash(country: string): _.CollectionChain<T>;
     asUnderscore(country: string): __._Chain<T, T[]>;
     asLazy(country: string): LazyJS.Sequence<T>;
-    asIterable(country: string): T[];
+    asIterable(country: string): Iterator<T>;
     asIx(country: string): IterableX<T>;
     asQuery(country: string): Query<T>;
 }

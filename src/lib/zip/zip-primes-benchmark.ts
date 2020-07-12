@@ -1,6 +1,7 @@
 import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
 import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
+import {forEach} from '../operations/utils/zipline-utils';
 
 export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     name(): string {
@@ -12,10 +13,7 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     }
 
     lazy(): void {
-        this.lazyOps
-            .zipPrimeWithValue(this.lazyUtils.getNumbers(), this.lazyUtils.getValues())
-            .toArray()
-            .forEach(blackhole);
+        this.lazyOps.zipPrimeWithValue(this.lazyUtils.getNumbers(), this.lazyUtils.getValues()).each(blackhole);
     }
 
     lodash(): void {
@@ -37,6 +35,6 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
     }
 
     zipline(): void {
-        this.ziplineOps.zipPrimeWithValue(this.ziplineUtils.getNumbers(), this.ziplineUtils.getValues()).forEach(blackhole);
+        forEach(this.ziplineOps.zipPrimeWithValue(this.ziplineUtils.getNumbers(), this.ziplineUtils.getValues()), blackhole);
     }
 }

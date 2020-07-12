@@ -10,7 +10,7 @@ export interface SequenceDataProvider<T> {
 
     asLazy(): LazyJS.Sequence<T>;
 
-    asIterable(): T[];
+    asIterable(): Iterator<T>;
 
     asIx(): IterableX<T>;
 

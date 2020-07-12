@@ -12,8 +12,8 @@ export abstract class AbstractBaseDataProvider<T> implements SequenceDataProvide
         return Query.of(this.getData());
     }
 
-    asIterable(): T[] {
-        return this.getData();
+    asIterable(): Iterator<T> {
+        return this.getData()[Symbol.iterator]();
     }
 
     asIx(): IterableX<T> {

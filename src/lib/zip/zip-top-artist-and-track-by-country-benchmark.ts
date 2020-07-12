@@ -1,5 +1,6 @@
 import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
+import {forEach} from '../operations/utils/zipline-utils';
 
 export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark {
     name(): string {
@@ -11,10 +12,7 @@ export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark
     }
 
     lazy(): void {
-        this.lazyOps
-            .zipTopArtistAndTrackByCountry(this.lazyUtils.getArtists(), this.lazyUtils.getTracks())
-            .toArray()
-            .forEach(blackhole);
+        this.lazyOps.zipTopArtistAndTrackByCountry(this.lazyUtils.getArtists(), this.lazyUtils.getTracks()).each(blackhole);
     }
 
     lodash(): void {
@@ -36,6 +34,6 @@ export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark
     }
 
     zipline(): void {
-        this.ziplineOps.zipTopArtistAndTrackByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks()).forEach(blackhole);
+        forEach(this.ziplineOps.zipTopArtistAndTrackByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks()), blackhole);
     }
 }

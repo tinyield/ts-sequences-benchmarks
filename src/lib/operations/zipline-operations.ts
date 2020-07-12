@@ -6,14 +6,32 @@ import {Triplet} from './model/triplet';
 import {TEN} from './common/constants';
 import {Value} from './model/wrapper/value';
 import {isPrime} from './utils/is-prime';
+import {filter, map, take, toArray} from './utils/zipline-utils';
 
-export function zip<T, U>(a: T[], b: U[]): Pair<T, U>[] {
-    return a.map((value, index) => new Pair<T, U>(value, b[index]));
+export function every<T>(source: Iterator<T>, predicate: (elem: T) => boolean): boolean {
+    let iteration = source.next();
+    while (!iteration.done) {
+        if (!predicate(iteration.value)) {
+            return false;
+        }
+        iteration = source.next();
+    }
+    return true;
 }
 
-export function distinct<T>(sequence: T[], by: (elem: T) => any): T[] {
+export function* zip<T, U>(a: Iterator<T>, b: Iterator<U>): Iterator<Pair<T, U>> {
+    let aIteration = a.next();
+    let bIteration = b.next();
+    while (!aIteration.done && !bIteration.done) {
+        yield new Pair<T, U>(aIteration.value, bIteration.value);
+        aIteration = a.next();
+        bIteration = b.next();
+    }
+}
+
+export function distinct<T>(sequence: Iterator<T>, by: (elem: T) => any): Iterator<T> {
     const distinctKeys = new Set<any>();
-    return sequence.filter(elem => {
+    return filter(sequence, elem => {
         const key = by(elem);
         if (!distinctKeys.has(key)) {
             distinctKeys.add(key);
@@ -26,44 +44,47 @@ export function distinct<T>(sequence: T[], by: (elem: T) => any): T[] {
 export class ZiplineOperations {
     public static readonly NAME = 'Zipline';
 
-    zipTopArtistAndTrackByCountry(artists: Pair<Country, Artist[]>[], tracks: Pair<Country, Track[]>[]): Triplet<Country, Artist, Track>[] {
+    zipTopArtistAndTrackByCountry(
+        artists: Iterator<Pair<Country, Iterator<Artist>>>,
+        tracks: Iterator<Pair<Country, Iterator<Track>>>
+    ): Iterator<Triplet<Country, Artist, Track>> {
         return distinct(
-            zip(artists, tracks).map(pair => {
-                return new Triplet(pair.left.left, pair.left.right.shift(), pair.right.right.shift());
-            }),
+            map(zip(artists, tracks), pair => new Triplet(pair.left.left, pair.left.right.next().value, pair.right.right.next().value)),
             trio => trio.center.mbid
         );
     }
 
     artistsInTopTenWithTopTenTracksByCountry(
-        artists: Pair<Country, Artist[]>[],
-        tracks: Pair<Country, Track[]>[]
-    ): Pair<Country, Artist[]>[] {
-        return zip(artists, tracks)
-            .map(pair => new Triplet(pair.left.left, pair.left.right, pair.right.right))
-            .map(trio => {
-                const topTenSongsArtistsNames = trio.right.slice(0, TEN).map(pair => pair.artist.name);
+        artists: Iterator<Pair<Country, Iterator<Artist>>>,
+        tracks: Iterator<Pair<Country, Iterator<Track>>>
+    ): Iterator<Pair<Country, Iterator<Artist>>> {
+        return map(
+            map(zip(artists, tracks), pair => new Triplet(pair.left.left, pair.left.right, pair.right.right)),
+            trio => {
+                const topTenSongsArtistsNames = toArray(map(take(trio.right, TEN), pair => pair.artist.name));
 
-                const selectedArtists = trio.center.slice(0, TEN).filter(artist => topTenSongsArtistsNames.indexOf(artist.name) !== -1);
+                const selectedArtists = filter(take(trio.center, TEN), artist => topTenSongsArtistsNames.indexOf(artist.name) !== -1);
 
-                return new Pair<Country, Artist[]>(trio.left, selectedArtists);
-            });
+                return new Pair<Country, Iterator<Artist>>(trio.left, selectedArtists);
+            }
+        );
     }
 
-    zipPrimeWithValue(numbers: number[], values: Value[]): Pair<number, Value>[] {
-        return zip(numbers.filter(isPrime), values);
+    zipPrimeWithValue(numbers: Iterator<number>, values: Iterator<Value>): Iterator<Pair<number, Value>> {
+        return zip(filter(numbers, isPrime), values);
     }
 
-    every<T, U>(a: T[], b: U[], predicate: (a: T, b: U) => boolean): boolean {
-        return zip(a, b)
-            .map(pair => predicate(pair.left, pair.right))
-            .every(elem => elem);
+    every<T, U>(a: Iterator<T>, b: Iterator<U>, predicate: (a: T, b: U) => boolean): boolean {
+        return every(
+            map(zip(a, b), pair => predicate(pair.left, pair.right)),
+            elem => elem
+        );
     }
 
-    find<T>(a: T[], b: T[], predicate: (a: T, b: T) => boolean): T {
-        return zip(a, b)
-            .map(pair => (predicate(pair.left, pair.right) ? pair.left : undefined))
-            .filter(elem => elem !== undefined)
-            .shift();
+    find<T>(a: Iterator<T>, b: Iterator<T>, predicate: (a: T, b: T) => boolean): T {
+        return filter(
+            map(zip(a, b), pair => (predicate(pair.left, pair.right) ? pair.left : undefined)),
+            elem => elem !== undefined
+        ).next().value;
     }
 }
