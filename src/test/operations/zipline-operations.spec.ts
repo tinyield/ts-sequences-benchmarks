@@ -9,19 +9,24 @@ import {expect} from 'chai';
 import {beforeEach, describe, it} from 'mocha';
 import {Value} from '../../lib/operations/model/wrapper/value';
 import {EVEN, ODD} from '../../lib/operations/common/constants';
+import {toArray} from '../../lib/operations/utils/zipline-utils';
 
-function getCountriesPairedWithArtists(): Pair<Country, Artist[]>[] {
+function getCountriesPairedWithArtists(): Iterator<Pair<Country, Iterator<Artist>>> {
     const artists: Artist[] = getArtists();
-    return getCountries().map((country, index) => {
-        return Pair.with(country, [artists[index % artists.length], artists[(index + 1) % artists.length]]);
-    });
+    return getCountries()
+        .map((country, index) => {
+            return Pair.with(country, [artists[index % artists.length], artists[(index + 1) % artists.length]][Symbol.iterator]());
+        })
+        [Symbol.iterator]();
 }
 
-function getCountriesPairedWithTracks(): Pair<Country, Track[]>[] {
+function getCountriesPairedWithTracks(): Iterator<Pair<Country, Iterator<Track>>> {
     const tracks: Track[] = getTracks();
-    return getCountries().map((country, index) => {
-        return Pair.with(country, [tracks[index % tracks.length], tracks[(index + 1) % tracks.length]]);
-    });
+    return getCountries()
+        .map((country, index) => {
+            return Pair.with(country, [tracks[index % tracks.length], tracks[(index + 1) % tracks.length]][Symbol.iterator]());
+        })
+        [Symbol.iterator]();
 }
 
 describe('ZiplineOperations', () => {
@@ -48,7 +53,7 @@ describe('ZiplineOperations', () => {
                 new Triplet<Country, Artist, Track>(countries[0], artists[0], tracks[0]),
                 new Triplet<Country, Artist, Track>(countries[1], artists[1], tracks[1]),
             ];
-            actual = operations.zipTopArtistAndTrackByCountry(getCountriesPairedWithArtists(), getCountriesPairedWithTracks());
+            actual = toArray(operations.zipTopArtistAndTrackByCountry(getCountriesPairedWithArtists(), getCountriesPairedWithTracks()));
         });
 
         it('should return an array with the expected trios', () => {
@@ -68,7 +73,9 @@ describe('ZiplineOperations', () => {
                 new Pair<Country, Artist[]>(countries[2], [artists[0], artists[1]]),
                 new Pair<Country, Artist[]>(countries[3], [artists[1], artists[0]]),
             ];
-            actual = operations.artistsInTopTenWithTopTenTracksByCountry(getCountriesPairedWithArtists(), getCountriesPairedWithTracks());
+            actual = toArray(
+                operations.artistsInTopTenWithTopTenTracksByCountry(getCountriesPairedWithArtists(), getCountriesPairedWithTracks())
+            ).map(elem => Pair.with(elem.left, toArray(elem.right)));
         });
 
         it('should return an array with the expected pairs', () => {
@@ -83,10 +90,7 @@ describe('ZiplineOperations', () => {
 
         beforeEach(() => {
             expected = numbers.map(n => Pair.with(n, new Value(n)));
-            actual = operations.zipPrimeWithValue(
-                numbers,
-                numbers.map(n => new Value(n))
-            );
+            actual = toArray(operations.zipPrimeWithValue(numbers[Symbol.iterator](), numbers.map(n => new Value(n))[Symbol.iterator]()));
         });
 
         it('should return an array with the expected pairs', () => {
@@ -103,8 +107,8 @@ describe('ZiplineOperations', () => {
             beforeEach(() => {
                 expected = true;
                 actual = operations.every(
-                    numbers,
-                    numbers.map(elem => new Value(elem)),
+                    numbers[Symbol.iterator](),
+                    numbers.map(elem => new Value(elem))[Symbol.iterator](),
                     (a, b) => a === b.value
                 );
             });
@@ -122,8 +126,8 @@ describe('ZiplineOperations', () => {
             beforeEach(() => {
                 expected = false;
                 actual = operations.every(
-                    numbers,
-                    numbers.map(elem => new Value(elem + 1)),
+                    numbers[Symbol.iterator](),
+                    numbers.map(elem => new Value(elem + 1))[Symbol.iterator](),
                     (a, b) => a === b.value
                 );
             });
@@ -142,7 +146,7 @@ describe('ZiplineOperations', () => {
 
             beforeEach(() => {
                 expected = EVEN;
-                actual = operations.find(numbers, numbers, (a, b) => a === b);
+                actual = operations.find(numbers[Symbol.iterator](), numbers[Symbol.iterator](), (a, b) => a === b);
             });
 
             it('should return the matched element', () => {
@@ -155,7 +159,7 @@ describe('ZiplineOperations', () => {
             let actual: number;
 
             beforeEach(() => {
-                actual = operations.find(numbers, [ODD, ODD, ODD], (a, b) => a === b);
+                actual = operations.find(numbers[Symbol.iterator](), [ODD, ODD, ODD][Symbol.iterator](), (a, b) => a === b);
             });
 
             it('should return undefined', () => {
