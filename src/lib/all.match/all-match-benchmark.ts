@@ -23,6 +23,10 @@ export class AllMatchBenchmark extends AbstractSequenceBenchmark {
         blackhole(this.tinyieldOps.isEveryEven(this.tinyieldUtils.getEven()));
     }
 
+    sequency(): void {
+        blackhole(this.sequencyOps.isEveryEven(this.sequencyUtils.getEven()));
+    }
+
     underscore(): void {
         blackhole(this.underscoreOps.isEveryEven(this.underscoreUtils.getEven()));
     }

@@ -25,6 +25,10 @@ export class EveryNumberBenchmark extends AbstractZipBenchmark {
         );
     }
 
+    sequency(): void {
+        blackhole(this.sequencyOps.every(this.sequencyUtils.getNumbers(), this.sequencyUtils.getNumbers(), (a, b) => a === b));
+    }
+
     underscore(): void {
         blackhole(
             this.underscoreOps.every<number, number>(

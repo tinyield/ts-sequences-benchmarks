@@ -4,6 +4,7 @@ import {IterableX} from 'ix/iterable';
 import * as _ from 'lodash';
 import * as __ from 'underscore';
 import * as Lazy from 'lazy.js';
+import Sequence, {asSequence} from 'sequency';
 
 export abstract class AbstractCountryBasedDataProvider<T> implements CountryBasedDataProvider<T> {
     protected abstract readonly data: {[key: string]: T[]};
@@ -34,6 +35,10 @@ export abstract class AbstractCountryBasedDataProvider<T> implements CountryBase
 
     asUnderscore(country: string): __._Chain<T, T[]> {
         return __.chain(this.getData(country));
+    }
+
+    asSequency(country: string): Sequence<T> {
+        return asSequence(this.getData(country));
     }
 
     private getData(country: string): T[] {

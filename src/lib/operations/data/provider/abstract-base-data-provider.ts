@@ -4,6 +4,7 @@ import {IterableX} from 'ix/iterable';
 import * as Lazy from 'lazy.js';
 import * as _ from 'lodash';
 import * as __ from 'underscore';
+import Sequence, {asSequence} from 'sequency';
 
 export abstract class AbstractBaseDataProvider<T> implements SequenceDataProvider<T> {
     protected abstract readonly data: T[];
@@ -30,6 +31,10 @@ export abstract class AbstractBaseDataProvider<T> implements SequenceDataProvide
 
     asUnderscore(): __._Chain<T, T[]> {
         return __.chain(this.getData());
+    }
+
+    asSequency(): Sequence<T> {
+        return asSequence(this.getData());
     }
 
     private getData(): T[] {

@@ -27,6 +27,10 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
         this.tinyieldOps.zipPrimeWithValue(this.tinyieldUtils.getNumbers(), this.tinyieldUtils.getValues()).forEach(blackhole);
     }
 
+    sequency(): void {
+        this.sequencyOps.zipPrimeWithValue(this.sequencyUtils.getNumbers(), this.sequencyUtils.getValues()).forEach(blackhole);
+    }
+
     underscore(): void {
         this.underscoreOps
             .zipPrimeWithValue(this.underscoreUtils.getNumbers(), this.underscoreUtils.getValues())

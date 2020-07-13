@@ -12,16 +12,20 @@ import {LazyUtils} from './operations/utils/lazy-utils';
 import {ZiplineUtils} from './operations/utils/zipline-utils';
 import {UnderscoreUtils} from './operations/utils/underscore-utils';
 import {LodashUtils} from './operations/utils/lodash-utils';
+import {SequencyOperations} from './operations/sequency-operations';
+import {SequencyUtils} from './operations/utils/sequency-utils';
 
 export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     protected readonly underscoreOps: UnderscoreOperations;
     protected readonly tinyieldOps: TinyieldOperations;
+    protected readonly sequencyOps: SequencyOperations;
     protected readonly lodashOps: LodashOperations;
     protected readonly lazyOps: LazyOperations;
     protected readonly ixOps: IxOperations;
 
     protected readonly underscoreUtils: UnderscoreUtils;
     protected readonly tinyieldUtils: TinyieldUtils;
+    protected readonly sequencyUtils: SequencyUtils;
     protected readonly ziplineUtils: ZiplineUtils;
     protected readonly lodashUtils: LodashUtils;
     protected readonly lazyUtils: LazyUtils;
@@ -30,12 +34,14 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     constructor() {
         this.underscoreOps = new UnderscoreOperations();
         this.tinyieldOps = new TinyieldOperations();
+        this.sequencyOps = new SequencyOperations();
         this.lodashOps = new LodashOperations();
         this.lazyOps = new LazyOperations();
         this.ixOps = new IxOperations();
 
         this.underscoreUtils = new UnderscoreUtils();
         this.tinyieldUtils = new TinyieldUtils();
+        this.sequencyUtils = new SequencyUtils();
         this.ziplineUtils = new ZiplineUtils();
         this.lodashUtils = new LodashUtils();
         this.lazyUtils = new LazyUtils();
@@ -45,6 +51,8 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     abstract underscore(): void;
 
     abstract tinyield(): void;
+
+    abstract sequency(): void;
 
     abstract lodash(): void;
 
@@ -63,6 +71,7 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
         return getSuite(this.name())
             .add(UnderscoreOperations.NAME, () => this.underscore(), opts)
             .add(TinyieldOperations.NAME, () => this.tinyield(), opts)
+            .add(SequencyOperations.NAME, () => this.sequency(), opts)
             .add(LodashOperations.NAME, () => this.lodash(), opts)
             .add(LazyOperations.NAME, () => this.lazy(), opts)
             .add(IxOperations.NAME, () => this.ix(), opts);

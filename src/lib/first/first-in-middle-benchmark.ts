@@ -23,6 +23,10 @@ export class FirstInMiddleBenchmark extends AbstractSequenceBenchmark {
         blackhole(this.tinyieldOps.first(this.tinyieldUtils.getEvenExceptMiddle()));
     }
 
+    sequency(): void {
+        blackhole(this.sequencyOps.first(this.sequencyUtils.getEvenExceptMiddle()));
+    }
+
     underscore(): void {
         blackhole(this.underscoreOps.first(this.underscoreUtils.getEvenExceptMiddle()));
     }

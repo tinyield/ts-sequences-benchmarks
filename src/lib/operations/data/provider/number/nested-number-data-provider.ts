@@ -5,6 +5,7 @@ import * as __ from 'underscore';
 import * as Lazy from 'lazy.js';
 import {IterableX} from 'ix/iterable';
 import 'ix/add/iterable-operators/map';
+import Sequence, {asSequence, sequenceOf} from 'sequency';
 
 export class NestedNumberDataProvider {
     protected readonly data: number[];
@@ -31,5 +32,8 @@ export class NestedNumberDataProvider {
 
     asUnderscore(): __._Chain<__._Chain<number, number[]>, __._Chain<number, number[]>[]> {
         return __.chain(this.data).map(elem => __.chain(elem)) as any;
+    }
+    asSequency(): Sequence<Sequence<number>> {
+        return asSequence(this.data).map(elem => sequenceOf(elem));
     }
 }

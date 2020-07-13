@@ -29,7 +29,7 @@
         "benchmark"
     ],
     "scripts": {
-        "benchmark": "node --no-warnings ./build/lib/index.js FlatmapAndReduceBenchmark",
+        "benchmark": "node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -s 10 -i 1 -t 0",
         "fix:code-style": "gts fix",
         "test": "mocha ./build/test",
         "check:code-style": "gts check",
@@ -79,6 +79,7 @@
         "lazy.js": "^0.5.1",
         "lodash": "^4.17.15",
         "rxjs": "^6.5.2",
+        "sequency": "^0.19.2",
         "tinyield4ts": "^1.0.4",
         "underscore": "^1.10.2",
         "write": "^2.0.0"

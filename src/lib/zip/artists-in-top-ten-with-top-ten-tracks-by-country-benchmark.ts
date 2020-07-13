@@ -28,6 +28,12 @@ export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZ
             .forEach(blackhole);
     }
 
+    sequency(): void {
+        this.sequencyOps
+            .artistsInTopTenWithTopTenTracksByCountry(this.sequencyUtils.getArtists(), this.sequencyUtils.getTracks())
+            .forEach(blackhole);
+    }
+
     underscore(): void {
         this.underscoreOps
             .artistsInTopTenWithTopTenTracksByCountry(this.underscoreUtils.getArtists(), this.underscoreUtils.getTracks())

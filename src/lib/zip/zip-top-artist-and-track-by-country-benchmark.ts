@@ -26,6 +26,10 @@ export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark
         this.tinyieldOps.zipTopArtistAndTrackByCountry(this.tinyieldUtils.getArtists(), this.tinyieldUtils.getTracks()).forEach(blackhole);
     }
 
+    sequency(): void {
+        this.sequencyOps.zipTopArtistAndTrackByCountry(this.sequencyUtils.getArtists(), this.sequencyUtils.getTracks()).forEach(blackhole);
+    }
+
     underscore(): void {
         this.underscoreOps
             .zipTopArtistAndTrackByCountry(this.underscoreUtils.getArtists(), this.underscoreUtils.getTracks())
