@@ -9,6 +9,7 @@ import {Value} from './model/wrapper/value';
 import {isPrime} from './utils/is-prime';
 import {isEven} from './utils/is-even';
 import {isOdd} from './utils/is-odd';
+import './extensions/sequency-extensions';
 
 export class SequencyOperations {
     public static readonly NAME = 'Sequency';
@@ -81,5 +82,14 @@ export class SequencyOperations {
 
     flatMapAndReduce(input: Sequence<Sequence<number>>): number {
         return input.flatMap(i => i).reduce((acc, curr) => acc + curr);
+    }
+
+    weatherTransitions(input: Sequence<string>): number {
+        return (input.filter(s => s.charAt(0) !== '#') as any)
+            .skip(1) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => line.substring(14, 16))
+            .collapse()
+            .count();
     }
 }

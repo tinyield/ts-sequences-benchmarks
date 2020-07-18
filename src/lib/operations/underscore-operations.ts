@@ -9,6 +9,7 @@ import {isPrime} from './utils/is-prime';
 import {isEven} from './utils/is-even';
 import {isOdd} from './utils/is-odd';
 import * as _ from 'underscore';
+import './extensions/underscore-extensions';
 
 function zip<T, U>(a: _._Chain<T, T[]>, b: _._Chain<U, U[]>): _._Chain<Pair<T, U>, Pair<T, U>[]> {
     return (a as _._Chain<any, any[]>).zip(b.value()).map(([elem1, elem2]: any) => new Pair<T, U>(elem1, elem2));
@@ -90,6 +91,15 @@ export class UnderscoreOperations {
             .map(i => i.value())
             .flatten()
             .reduce<number>((acc, curr) => acc + curr)
+            .value();
+    }
+
+    weatherTransitions(input: _._Chain<string, string[]>): number {
+        return ((input.filter(s => s.charAt(0) !== '#').drop(1) as any)
+            .oddLines()
+            .map((line: string) => line.substring(14, 16))
+            .collapse() as _._Chain<string, string[]>)
+            .size()
             .value();
     }
 }

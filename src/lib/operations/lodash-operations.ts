@@ -9,6 +9,7 @@ import {isPrime} from './utils/is-prime';
 import {isEven} from './utils/is-even';
 import {isOdd} from './utils/is-odd';
 import * as _ from 'lodash';
+import './extensions/lodash-extensions';
 
 export class LodashOperations {
     public static readonly NAME = 'Lodash';
@@ -83,6 +84,15 @@ export class LodashOperations {
         return input
             .flatMap(i => i.value())
             .reduce((acc, curr) => acc + curr)
+            .value();
+    }
+
+    weatherTransitions(input: _.CollectionChain<string>): number {
+        return ((input.filter(s => s.charAt(0) !== '#').drop(1) as any)
+            .oddLines()
+            .map((line: string) => line.substring(14, 16))
+            .collapse() as _.CollectionChain<string>)
+            .size()
             .value();
     }
 }

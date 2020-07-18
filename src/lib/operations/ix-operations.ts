@@ -18,6 +18,11 @@ import 'ix/add/iterable-operators/first';
 import 'ix/add/iterable-operators/every';
 import 'ix/add/iterable-operators/take';
 import 'ix/add/iterable-operators/map';
+import 'ix/add/iterable-operators/skip';
+import 'ix/add/iterable-operators/count';
+import 'ix/add/iterable-operators/expand';
+import './extensions/ix-extensions.js';
+import {CollapseIterable, OddLinesIterable} from './extensions/ix-extensions';
 
 export class IxOperations {
     public static readonly NAME = 'Ix';
@@ -81,5 +86,19 @@ export class IxOperations {
 
     flatMapAndReduce(input: IterableX<IterableX<number>>): number {
         return input.flatMap(i => i).reduce((acc, curr) => acc + curr);
+    }
+
+    weatherTransitions(input: IterableX<string>): number {
+        return IterableX.as(
+            new CollapseIterable(
+                IterableX.as(
+                    new OddLinesIterable(
+                        input
+                            .filter(s => s.charAt(0) !== '#') // Filter comments
+                            .skip(1)
+                    )
+                ).map(line => line.substring(14, 16))
+            )
+        ).count();
     }
 }

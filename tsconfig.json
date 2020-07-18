@@ -23,7 +23,8 @@
             "dom",
             "esnext",
             "esnext.asynciterable"
-        ]
+        ],
+      "allowSyntheticDefaultImports": true
     },
     "include": ["src/**/*.ts", "test/**/*.ts"]
 }

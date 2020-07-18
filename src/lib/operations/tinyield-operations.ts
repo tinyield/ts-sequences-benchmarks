@@ -9,6 +9,7 @@ import {Value} from './model/wrapper/value';
 import {isPrime} from './utils/is-prime';
 import {isEven} from './utils/is-even';
 import {isOdd} from './utils/is-odd';
+import {collapse, oddLines} from './extensions/tinyield-extensions';
 
 export class TinyieldOperations {
     public static readonly NAME = 'Tinyield';
@@ -72,5 +73,15 @@ export class TinyieldOperations {
 
     flatMapAndReduce(input: Query<Query<number>>): number {
         return input.flatMap(i => i).reduce((acc, curr) => acc + curr);
+    }
+
+    weatherTransitions(input: Query<string>): number {
+        return input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .skip(1) // Skip line: Not available
+            .then(oddLines) // Filter hourly info
+            .map(line => line.substring(14, 16))
+            .then(collapse)
+            .count();
     }
 }

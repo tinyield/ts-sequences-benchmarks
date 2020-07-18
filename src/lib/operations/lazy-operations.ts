@@ -8,6 +8,7 @@ import {isPrime} from './utils/is-prime';
 import {isEven} from './utils/is-even';
 import {isOdd} from './utils/is-odd';
 import {Artist} from './model/artist/artist';
+import './extensions/lazy-extensions';
 
 function zip<T, U>(a: LazyJS.Sequence<T>, b: LazyJS.Sequence<U>): LazyJS.Sequence<Pair<T, U>> {
     const iterator: {current(): U; moveNext(): boolean} = (b as any).getIterator();
@@ -94,5 +95,15 @@ export class LazyOperations {
 
     flatMapAndReduce(input: LazyJS.Sequence<LazyJS.Sequence<number>>): number {
         return input.flatten().reduce((acc, curr) => acc + curr);
+    }
+
+    weatherTransitions(input: LazyJS.Sequence<string>): number {
+        return (input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .rest(1) as any) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => line.substring(14, 16))
+            .collapse()
+            .size();
     }
 }
