@@ -9,7 +9,3 @@ export interface SequenceBenchmark extends Benchmark {
     underscore(): void;
     ix(): void;
 }
-
-export interface ZipBenchmark extends SequenceBenchmark {
-    zipline(): void;
-}

@@ -1,4 +1,3 @@
-import {AbstractZipBenchmark} from '../zip/abstract-zip-benchmark';
 import {Suite} from 'benchmark';
 import {IterableX} from 'ix/iterable';
 import * as Lazy from 'lazy.js';
@@ -7,8 +6,9 @@ import * as __ from 'underscore';
 import {Query} from 'tinyield4ts';
 import {blackhole} from '../utils/benchmark-utils';
 import {asSequence} from 'sequency';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export abstract class AbstractFindBenchmark<T> extends AbstractZipBenchmark {
+export abstract class AbstractFindBenchmark<T> extends AbstractSequenceBenchmark {
     protected index: number;
 
     constructor() {
@@ -61,11 +61,6 @@ export abstract class AbstractFindBenchmark<T> extends AbstractZipBenchmark {
     underscore(): void {
         this.iterate();
         blackhole(this.underscoreOps.find(__.chain(this.getSourceA()), __.chain(this.getSourceB()), this.getPredicate()));
-    }
-
-    zipline(): void {
-        this.iterate();
-        blackhole(this.ziplineOps.find(this.getSourceA()[Symbol.iterator](), this.getSourceB()[Symbol.iterator](), this.getPredicate()));
     }
 
     protected getSuite(): Suite {

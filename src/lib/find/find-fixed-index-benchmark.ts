@@ -2,7 +2,6 @@ import {AbstractFindBenchmark} from './abstract-find-benchmark';
 import {EvenSequenceDataProvider} from '../operations/data/provider/number/even-sequence-data-provider';
 import {ODD} from '../operations/common/constants';
 import {getCLIArguments, getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
-import {toArray} from '../operations/utils/zipline-utils';
 
 export class FindFixedIndexBenchmark extends AbstractFindBenchmark<number> {
     private readonly size: number;
@@ -34,8 +33,8 @@ export class FindFixedIndexBenchmark extends AbstractFindBenchmark<number> {
     }
 
     reset(): void {
-        this.a = toArray(this.provider.asIterable());
-        this.b = toArray(this.provider.asIterable());
+        this.a = this.provider.asArray();
+        this.b = this.provider.asArray();
         this.b[this.getMatchIndex()] = ODD;
     }
 

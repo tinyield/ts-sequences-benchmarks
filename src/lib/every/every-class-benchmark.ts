@@ -1,9 +1,9 @@
 import {blackhole} from '../utils/benchmark-utils';
 import {Value} from '../operations/model/wrapper/value';
-import {AbstractZipBenchmark} from '../zip/abstract-zip-benchmark';
 import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export class EveryClassBenchmark extends AbstractZipBenchmark {
+export class EveryClassBenchmark extends AbstractSequenceBenchmark {
     name(): string {
         return `Every Class ${getCollectionSizeLabel()}`;
     }
@@ -43,12 +43,6 @@ export class EveryClassBenchmark extends AbstractZipBenchmark {
                 this.underscoreUtils.getValues(),
                 (a, b) => a.text === b.text
             )
-        );
-    }
-
-    zipline(): void {
-        blackhole(
-            this.ziplineOps.every<Value, Value>(this.ziplineUtils.getValues(), this.ziplineUtils.getValues(), (a, b) => a.text === b.text)
         );
     }
 }

@@ -1,8 +1,8 @@
 import {blackhole} from '../utils/benchmark-utils';
-import {AbstractZipBenchmark} from '../zip/abstract-zip-benchmark';
 import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export class EveryStringBenchmark extends AbstractZipBenchmark {
+export class EveryStringBenchmark extends AbstractSequenceBenchmark {
     name(): string {
         return `Every String ${getCollectionSizeLabel()}`;
     }
@@ -37,9 +37,5 @@ export class EveryStringBenchmark extends AbstractZipBenchmark {
                 (a, b) => a === b
             )
         );
-    }
-
-    zipline(): void {
-        blackhole(this.ziplineOps.every<string, string>(this.ziplineUtils.getStrings(), this.ziplineUtils.getStrings(), (a, b) => a === b));
     }
 }

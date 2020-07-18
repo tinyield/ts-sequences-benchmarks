@@ -1,9 +1,8 @@
-import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
 import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
-import {forEach} from '../operations/utils/zipline-utils';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export class ZipPrimesBenchmark extends AbstractZipBenchmark {
+export class ZipPrimesBenchmark extends AbstractSequenceBenchmark {
     name(): string {
         return `Zip Primes with Values ${getCollectionSizeLabel()}`;
     }
@@ -36,9 +35,5 @@ export class ZipPrimesBenchmark extends AbstractZipBenchmark {
             .zipPrimeWithValue(this.underscoreUtils.getNumbers(), this.underscoreUtils.getValues())
             .forEach(blackhole)
             .value();
-    }
-
-    zipline(): void {
-        forEach(this.ziplineOps.zipPrimeWithValue(this.ziplineUtils.getNumbers(), this.ziplineUtils.getValues()), blackhole);
     }
 }

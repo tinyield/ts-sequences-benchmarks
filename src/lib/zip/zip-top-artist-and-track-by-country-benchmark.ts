@@ -1,8 +1,7 @@
-import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
-import {forEach} from '../operations/utils/zipline-utils';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark {
+export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractSequenceBenchmark {
     name(): string {
         return 'Distinct Top Artist and Top Track by Country Benchmark';
     }
@@ -35,9 +34,5 @@ export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractZipBenchmark
             .zipTopArtistAndTrackByCountry(this.underscoreUtils.getArtists(), this.underscoreUtils.getTracks())
             .forEach(blackhole)
             .value();
-    }
-
-    zipline(): void {
-        forEach(this.ziplineOps.zipTopArtistAndTrackByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks()), blackhole);
     }
 }

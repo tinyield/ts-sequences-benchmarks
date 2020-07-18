@@ -1,8 +1,7 @@
-import {AbstractZipBenchmark} from './abstract-zip-benchmark';
 import {blackhole} from '../utils/benchmark-utils';
-import {forEach} from '../operations/utils/zipline-utils';
+import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 
-export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZipBenchmark {
+export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractSequenceBenchmark {
     name(): string {
         return 'Artists who are in a Country\'s top ten who also have Tracks in the same Country\'s top ten Benchmark';
     }
@@ -39,12 +38,5 @@ export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractZ
             .artistsInTopTenWithTopTenTracksByCountry(this.underscoreUtils.getArtists(), this.underscoreUtils.getTracks())
             .forEach(blackhole)
             .value();
-    }
-
-    zipline(): void {
-        forEach(
-            this.ziplineOps.artistsInTopTenWithTopTenTracksByCountry(this.ziplineUtils.getArtists(), this.ziplineUtils.getTracks()),
-            blackhole
-        );
     }
 }

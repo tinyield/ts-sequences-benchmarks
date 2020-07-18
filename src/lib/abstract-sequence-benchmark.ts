@@ -9,7 +9,6 @@ import {IxOperations} from './operations/ix-operations';
 import {TinyieldUtils} from './operations/utils/tinyield-utils';
 import {IxUtils} from './operations/utils/ix-utils';
 import {LazyUtils} from './operations/utils/lazy-utils';
-import {ZiplineUtils} from './operations/utils/zipline-utils';
 import {UnderscoreUtils} from './operations/utils/underscore-utils';
 import {LodashUtils} from './operations/utils/lodash-utils';
 import {SequencyOperations} from './operations/sequency-operations';
@@ -26,7 +25,6 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     protected readonly underscoreUtils: UnderscoreUtils;
     protected readonly tinyieldUtils: TinyieldUtils;
     protected readonly sequencyUtils: SequencyUtils;
-    protected readonly ziplineUtils: ZiplineUtils;
     protected readonly lodashUtils: LodashUtils;
     protected readonly lazyUtils: LazyUtils;
     protected readonly ixUtils: IxUtils;
@@ -42,7 +40,6 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
         this.underscoreUtils = new UnderscoreUtils();
         this.tinyieldUtils = new TinyieldUtils();
         this.sequencyUtils = new SequencyUtils();
-        this.ziplineUtils = new ZiplineUtils();
         this.lodashUtils = new LodashUtils();
         this.lazyUtils = new LazyUtils();
         this.ixUtils = new IxUtils();

@@ -17,8 +17,8 @@ export abstract class AbstractCountryBasedDataProvider<T> implements CountryBase
         return Query.of(this.getData(country));
     }
 
-    asIterable(country: string): Iterator<T> {
-        return this.getData(country)[Symbol.iterator]();
+    asArray(country: string): T[] {
+        return this.getData(country);
     }
 
     asIx(country: string): IterableX<T> {
