@@ -37,7 +37,7 @@
         "build:test": "tsc -p ./tsconfig.spec.json && npm run copy-assets",
         "build": "tsc -p ./tsconfig.bench.json && npm run copy-assets",
         "clean": "gts clean",
-        "copy-assets": "copyfiles ./src/assets/**/**.* ./build/assets --up 2",
+        "copy-assets": "copyfiles ./src/assets/**.* ./src/assets/**/**.* ./build/assets --up 2",
         "pretest": "npm run clean && npm run build:test",
         "prebuild": "npm run clean",
         "prebenchmark": "npm run build"
