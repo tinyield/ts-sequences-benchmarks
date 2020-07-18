@@ -1,0 +1,33 @@
+name: Temperature Transitions Benchmark
+
+on:
+  push:
+    branches:
+      - all-benchmarks
+      - collapse
+
+jobs:
+    benchmark:
+        name: Benchmark
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v1
+            -   name: Use Node.js 10
+                uses: actions/setup-node@v1
+                with:
+                    node-version: 10
+
+            -   name: Install
+                run: npm clean-install
+
+            -   name: Build
+                run: npm run build
+
+            -   name: Run Benchmark
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n CollapseBenchmark -i 30 -t 30 -o weather.log
+
+            -   name: Upload results
+                uses: actions/upload-artifact@v2
+                with:
+                    name: weather
+                    path: ./*.log
