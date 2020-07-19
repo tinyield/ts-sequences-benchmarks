@@ -24,10 +24,10 @@ jobs:
                 run: npm run build
 
             -   name: Run Benchmark [COLLECTION_SIZE = 1K]
-                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n AllMatchBenchmark -s 1000 -i 30 -t 30 -o All_Match-1K.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n AllMatchBenchmark -s 1000 -i 100 -t 10 -o All_Match-1K.log
 
             -   name: Run Benchmark [COLLECTION_SIZE = 100K]
-                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n AllMatchBenchmark -s 100000 -i 30 -t 30 -o All_Match-100K.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n AllMatchBenchmark -s 100000 -i 100 -t 10 -o All_Match-100K.log
 
             -   name: Upload results
                 uses: actions/upload-artifact@v2

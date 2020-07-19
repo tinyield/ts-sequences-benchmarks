@@ -24,7 +24,7 @@ jobs:
                 run: npm run build
 
             -   name: Run Benchmark
-                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n ZipTopArtistAndTrackByCountryBenchmark -i 30 -t 30 -o zip-top-artist-and-track.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n ZipTopArtistAndTrackByCountryBenchmark -i 100 -t 25 -o zip-top-artist-and-track.log
 
             -   name: Upload results
                 uses: actions/upload-artifact@v2

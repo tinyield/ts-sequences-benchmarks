@@ -24,7 +24,7 @@ jobs:
                 run: npm run build
 
             -   name: Run Benchmark
-                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n CollapseBenchmark -i 30 -t 30 -o weather.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n CollapseBenchmark -i 100 -t 25 -o weather.log
 
             -   name: Upload results
                 uses: actions/upload-artifact@v2
