@@ -27,7 +27,7 @@ jobs:
                 run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n FindStringBenchmark -s 1000 -i 100 -t 10 -o Find[String]-1K.log
 
             -   name: Run Benchmark [COLLECTION_SIZE = 100K]
-                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n FindStringBenchmark -s 100000 -i 100 -t 10 -o Find[String]-100K.log
+                run: node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -n FindStringBenchmark -s 100000 -i 30 -t 10 -o Find[String]-100K.log
 
             -   name: Upload results
                 uses: actions/upload-artifact@v2
