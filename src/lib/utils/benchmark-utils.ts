@@ -39,12 +39,13 @@ export function getSuite(name: string): Suite {
     <tr>
         <td class="Benchmark">${name}</td>
         <comment></comment>
-        <td class="Underscore">${getBaselinePerformanceComparison(benchs[0], benchs[5])}</td>
-        <td class="Tinyield">${getBaselinePerformanceComparison(benchs[1], benchs[5])}</td>
-        <td class="Sequency">${getBaselinePerformanceComparison(benchs[2], benchs[5])}</td>
-        <td class="Lodash">${getBaselinePerformanceComparison(benchs[3], benchs[5])}</td>
-        <td class="Lazy.js">${getBaselinePerformanceComparison(benchs[4], benchs[5])}</td>
-        <td class="IxJs">${getBaselinePerformanceComparison(benchs[5], benchs[5])}</td>
+        <td class="Underscore">${getBaselinePerformanceComparison(benchs[0], benchs[4])}</td>
+        <td class="Tinyield">${getBaselinePerformanceComparison(benchs[1], benchs[4])}</td>
+        <td class="Sequency">${getBaselinePerformanceComparison(benchs[2], benchs[4])}</td>
+        <td class="Lodash">${getBaselinePerformanceComparison(benchs[3], benchs[4])}</td>
+        <td class="Arrays">${getBaselinePerformanceComparison(benchs[4], benchs[4])}</td>
+        <td class="Lazy.js">${getBaselinePerformanceComparison(benchs[5], benchs[4])}</td>
+        <td class="IxJs">${getBaselinePerformanceComparison(benchs[6], benchs[4])}</td>
     </tr>
 `;
             console.log(tableRow);

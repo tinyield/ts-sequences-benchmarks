@@ -9,16 +9,19 @@ import {IxOperations} from './operations/ix-operations';
 import {TinyieldUtils} from './operations/utils/tinyield-utils';
 import {IxUtils} from './operations/utils/ix-utils';
 import {LazyUtils} from './operations/utils/lazy-utils';
+import {ArrayUtils} from './operations/utils/array-utils';
 import {UnderscoreUtils} from './operations/utils/underscore-utils';
 import {LodashUtils} from './operations/utils/lodash-utils';
 import {SequencyOperations} from './operations/sequency-operations';
 import {SequencyUtils} from './operations/utils/sequency-utils';
+import {ArrayOperations} from './operations/array-operations';
 
 export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     protected readonly underscoreOps: UnderscoreOperations;
     protected readonly tinyieldOps: TinyieldOperations;
     protected readonly sequencyOps: SequencyOperations;
     protected readonly lodashOps: LodashOperations;
+    protected readonly arrayOps: ArrayOperations;
     protected readonly lazyOps: LazyOperations;
     protected readonly ixOps: IxOperations;
 
@@ -26,6 +29,7 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
     protected readonly tinyieldUtils: TinyieldUtils;
     protected readonly sequencyUtils: SequencyUtils;
     protected readonly lodashUtils: LodashUtils;
+    protected readonly arrayUtils: ArrayUtils;
     protected readonly lazyUtils: LazyUtils;
     protected readonly ixUtils: IxUtils;
 
@@ -34,6 +38,7 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
         this.tinyieldOps = new TinyieldOperations();
         this.sequencyOps = new SequencyOperations();
         this.lodashOps = new LodashOperations();
+        this.arrayOps = new ArrayOperations();
         this.lazyOps = new LazyOperations();
         this.ixOps = new IxOperations();
 
@@ -41,6 +46,7 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
         this.tinyieldUtils = new TinyieldUtils();
         this.sequencyUtils = new SequencyUtils();
         this.lodashUtils = new LodashUtils();
+        this.arrayUtils = new ArrayUtils();
         this.lazyUtils = new LazyUtils();
         this.ixUtils = new IxUtils();
     }
@@ -57,6 +63,8 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
 
     abstract ix(): void;
 
+    abstract arrays(): void;
+
     abstract name(): string;
 
     run(): void {
@@ -70,6 +78,7 @@ export abstract class AbstractSequenceBenchmark implements SequenceBenchmark {
             .add(TinyieldOperations.NAME, () => this.tinyield(), opts)
             .add(SequencyOperations.NAME, () => this.sequency(), opts)
             .add(LodashOperations.NAME, () => this.lodash(), opts)
+            .add(ArrayOperations.NAME, () => this.arrays(), opts)
             .add(LazyOperations.NAME, () => this.lazy(), opts)
             .add(IxOperations.NAME, () => this.ix(), opts);
     }

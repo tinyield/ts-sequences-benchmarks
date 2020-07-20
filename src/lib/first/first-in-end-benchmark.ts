@@ -30,4 +30,8 @@ export class FirstInEndBenchmark extends AbstractSequenceBenchmark {
     underscore(): void {
         blackhole(this.underscoreOps.first(this.underscoreUtils.getEvenExceptEnd()));
     }
+
+    arrays(): void {
+        blackhole(this.arrayOps.first(this.arrayUtils.getEvenExceptEnd()));
+    }
 }

@@ -14,11 +14,11 @@ export abstract class AbstractCountryBasedDataProvider<T> implements CountryBase
     }
 
     asQuery(country: string): Query<T> {
-        return Query.of(this.getData(country));
+        return Query.of(this.asArray(country));
     }
 
-    asArray(country: string): T[] {
-        return this.getData(country);
+    asIterable(country: string): Iterator<T> {
+        return this.asArray(country)[Symbol.iterator]();
     }
 
     asIx(country: string): IterableX<T> {
@@ -26,22 +26,22 @@ export abstract class AbstractCountryBasedDataProvider<T> implements CountryBase
     }
 
     asLazy(country: string): LazyJS.Sequence<T> {
-        return Lazy(this.getData(country));
+        return Lazy(this.asArray(country));
     }
 
     asLodash(country: string): _.CollectionChain<T> {
-        return _.chain(this.getData(country));
+        return _.chain(this.asArray(country));
     }
 
     asUnderscore(country: string): __._Chain<T, T[]> {
-        return __.chain(this.getData(country));
+        return __.chain(this.asArray(country));
     }
 
     asSequency(country: string): Sequence<T> {
-        return asSequence(this.getData(country));
+        return asSequence(this.asArray(country));
     }
 
-    private getData(country: string): T[] {
+    asArray(country: string): T[] {
         return [...this.data[country]];
     }
 }

@@ -8,4 +8,9 @@ export interface SequenceBenchmark extends Benchmark {
     lodash(): void;
     underscore(): void;
     ix(): void;
+    arrays(): void;
+}
+
+export interface ZipBenchmark extends SequenceBenchmark {
+    arrays(): void;
 }

@@ -36,4 +36,8 @@ export class ZipPrimesBenchmark extends AbstractSequenceBenchmark {
             .forEach(blackhole)
             .value();
     }
+
+    arrays(): void {
+        this.arrayOps.zipPrimeWithValue(this.arrayUtils.getNumbers(), this.arrayUtils.getValues()).forEach(blackhole);
+    }
 }

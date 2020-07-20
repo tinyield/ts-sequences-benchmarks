@@ -38,4 +38,8 @@ export class EveryNumberBenchmark extends AbstractSequenceBenchmark {
             )
         );
     }
+
+    arrays(): void {
+        blackhole(this.arrayOps.every<number, number>(this.arrayUtils.getNumbers(), this.arrayUtils.getNumbers(), (a, b) => a === b));
+    }
 }

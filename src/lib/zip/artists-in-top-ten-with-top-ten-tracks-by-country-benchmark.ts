@@ -39,4 +39,10 @@ export class ArtistsInTopTenWithTopTenTracksByCountryBenchmark extends AbstractS
             .forEach(blackhole)
             .value();
     }
+
+    arrays(): void {
+        this.arrayOps
+            .artistsInTopTenWithTopTenTracksByCountry(this.arrayUtils.getArtists(), this.arrayUtils.getTracks())
+            .forEach(blackhole);
+    }
 }

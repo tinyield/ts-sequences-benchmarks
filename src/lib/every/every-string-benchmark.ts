@@ -38,4 +38,8 @@ export class EveryStringBenchmark extends AbstractSequenceBenchmark {
             )
         );
     }
+
+    arrays(): void {
+        blackhole(this.arrayOps.every<string, string>(this.arrayUtils.getStrings(), this.arrayUtils.getStrings(), (a, b) => a === b));
+    }
 }

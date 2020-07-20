@@ -10,34 +10,34 @@ export abstract class AbstractBaseDataProvider<T> implements SequenceDataProvide
     protected abstract readonly data: T[];
 
     asQuery(): Query<T> {
-        return Query.of(this.getData());
+        return Query.of(this.asArray());
     }
 
-    asArray(): T[] {
-        return this.getData();
+    asIterable(): Iterator<T> {
+        return this.asArray()[Symbol.iterator]();
     }
 
     asIx(): IterableX<T> {
-        return IterableX.of(...this.getData());
+        return IterableX.of(...this.asArray());
     }
 
     asLazy(): LazyJS.Sequence<T> {
-        return Lazy(this.getData());
+        return Lazy(this.asArray());
     }
 
     asLodash(): _.CollectionChain<T> {
-        return _.chain(this.getData());
+        return _.chain(this.asArray());
     }
 
     asUnderscore(): __._Chain<T, T[]> {
-        return __.chain(this.getData());
+        return __.chain(this.asArray());
     }
 
     asSequency(): Sequence<T> {
-        return asSequence(this.getData());
+        return asSequence(this.asArray());
     }
 
-    private getData(): T[] {
+    asArray(): T[] {
         return [...this.data];
     }
 }

@@ -30,4 +30,8 @@ export class AllMatchBenchmark extends AbstractSequenceBenchmark {
     underscore(): void {
         blackhole(this.underscoreOps.isEveryEven(this.underscoreUtils.getEven()));
     }
+
+    arrays() {
+        blackhole(this.arrayOps.isEveryEven(this.arrayUtils.getEven()));
+    }
 }

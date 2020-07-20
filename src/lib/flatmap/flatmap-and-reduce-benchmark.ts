@@ -30,4 +30,8 @@ export class FlatmapAndReduceBenchmark extends AbstractSequenceBenchmark {
     underscore(): void {
         blackhole(this.underscoreOps.flatMapAndReduce(this.underscoreUtils.getNested()));
     }
+
+    arrays(): void {
+        blackhole(this.arrayOps.flatMapAndReduce(this.arrayUtils.getNested()));
+    }
 }

@@ -63,6 +63,11 @@ export abstract class AbstractFindBenchmark<T> extends AbstractSequenceBenchmark
         blackhole(this.underscoreOps.find(__.chain(this.getSourceA()), __.chain(this.getSourceB()), this.getPredicate()));
     }
 
+    arrays(): void {
+        this.iterate();
+        blackhole(this.arrayOps.find(this.getSourceA(), this.getSourceB(), this.getPredicate()));
+    }
+
     protected getSuite(): Suite {
         return super.getSuite().on('cycle', () => this.reset());
     }

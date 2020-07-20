@@ -1,4 +1,5 @@
 import * as Lazy from 'lazy.js';
+
 const lazy = Lazy as any;
 lazy.Sequence.define(['oddLines'], {
     each(fn: any) {

@@ -35,4 +35,8 @@ export class ZipTopArtistAndTrackByCountryBenchmark extends AbstractSequenceBenc
             .forEach(blackhole)
             .value();
     }
+
+    arrays(): void {
+        this.arrayOps.zipTopArtistAndTrackByCountry(this.arrayUtils.getArtists(), this.arrayUtils.getTracks()).forEach(blackhole);
+    }
 }

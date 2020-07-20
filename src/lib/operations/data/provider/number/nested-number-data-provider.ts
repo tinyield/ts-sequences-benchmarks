@@ -36,4 +36,8 @@ export class NestedNumberDataProvider {
     asSequency(): Sequence<Sequence<number>> {
         return asSequence(this.data).map(elem => sequenceOf(elem));
     }
+
+    asArray(): number[][] {
+        return this.data.map(i => [i]);
+    }
 }

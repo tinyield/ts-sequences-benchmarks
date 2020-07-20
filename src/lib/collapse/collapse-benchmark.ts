@@ -37,4 +37,8 @@ export class CollapseBenchmark extends AbstractSequenceBenchmark {
     underscore(): void {
         blackhole(this.underscoreOps.weatherTransitions(this.provider.asUnderscore()));
     }
+
+    arrays(): void {
+        blackhole(this.arrayOps.weatherTransitions(this.provider.asArray()));
+    }
 }
