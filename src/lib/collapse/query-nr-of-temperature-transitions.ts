@@ -2,7 +2,7 @@ import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
 import {WeatherDataProvider} from '../operations/data/provider/weather/weather-data-provider';
 import {blackhole} from '../utils/benchmark-utils';
 
-export class CollapseBenchmark extends AbstractSequenceBenchmark {
+export class QueryNrOfTemperatureTransitions extends AbstractSequenceBenchmark {
     private readonly provider: WeatherDataProvider;
 
     constructor() {
@@ -11,7 +11,7 @@ export class CollapseBenchmark extends AbstractSequenceBenchmark {
     }
 
     name(): string {
-        return 'Collapse Benchmark';
+        return 'Query Number of Temperature Transitions Benchmark';
     }
 
     ix(): void {

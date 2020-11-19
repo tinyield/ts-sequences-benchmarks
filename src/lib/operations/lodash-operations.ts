@@ -95,4 +95,21 @@ export class LodashOperations {
             .size()
             .value();
     }
+
+    queryMaxTemperature(input: _.CollectionChain<string>): number {
+        return (input.filter(s => s.charAt(0) !== '#').drop(1) as any)
+            .oddLines()
+            .map((line: string) => Number(line.substring(14, 16)))
+            .max()
+            .value();
+    }
+
+    queryNrOfDistinctTemperatures(input: _.CollectionChain<string>): number {
+        return (input.filter(s => s.charAt(0) !== '#').drop(1) as any)
+            .oddLines()
+            .map((line: string) => Number(line.substring(14, 16)))
+            .uniq()
+            .size()
+            .value();
+    }
 }

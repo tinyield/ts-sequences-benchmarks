@@ -84,4 +84,23 @@ export class TinyieldOperations {
             .then(collapse)
             .count();
     }
+
+    queryMaxTemperature(input: Query<string>): number {
+        return input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .skip(1) // Skip line: Not available
+            .then(oddLines) // Filter hourly info
+            .map(line => Number(line.substring(14, 16)))
+            .max((a, b) => a - b);
+    }
+
+    queryNrOfDistinctTemperatures(input: Query<string>): number {
+        return input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .skip(1) // Skip line: Not available
+            .then(oddLines) // Filter hourly info
+            .map(line => Number(line.substring(14, 16)))
+            .distinct()
+            .count();
+    }
 }

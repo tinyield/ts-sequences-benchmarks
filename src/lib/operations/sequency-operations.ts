@@ -92,4 +92,21 @@ export class SequencyOperations {
             .collapse()
             .count();
     }
+
+    queryMaxTemperature(input: Sequence<string>): number {
+        return (input.filter(s => s.charAt(0) !== '#') as any)
+            .skip(1) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => Number(line.substring(14, 16)))
+            .max();
+    }
+
+    queryNrOfDistinctTemperatures(input: Sequence<string>): number {
+        return (input.filter(s => s.charAt(0) !== '#') as any)
+            .skip(1) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => Number(line.substring(14, 16)))
+            .distinct()
+            .count();
+    }
 }

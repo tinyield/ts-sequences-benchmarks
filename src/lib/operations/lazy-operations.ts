@@ -106,4 +106,23 @@ export class LazyOperations {
             .collapse()
             .size();
     }
+
+    queryMaxTemperature(input: LazyJS.Sequence<string>): number {
+        return (input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .rest(1) as any) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => Number(line.substring(14, 16)))
+            .max();
+    }
+
+    queryNrOfDistinctTemperatures(input: LazyJS.Sequence<string>): number {
+        return (input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .rest(1) as any) // Skip line: Not available
+            .oddLines() // Filter hourly info
+            .map((line: string) => Number(line.substring(14, 16)))
+            .uniq()
+            .size();
+    }
 }

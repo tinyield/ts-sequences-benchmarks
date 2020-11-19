@@ -15,7 +15,9 @@ import {FindFixedIndexBenchmark} from '../find/find-fixed-index-benchmark';
 import {FindNumberBenchmark} from '../find/find-number-benchmark';
 import {FindStringBenchmark} from '../find/find-string-benchmark';
 import {BenchmarkCliArguments} from './benchmark-cli-arguments';
-import {CollapseBenchmark} from '../collapse/collapse-benchmark';
+import {QueryMaxTemperature} from '../odd.lines/query-max-temperature';
+import {QueryNrOfDistinctTemperatures} from '../odd.lines/query-nr-of-distinct-temperatures';
+import {QueryNrOfTemperatureTransitions} from '../collapse/query-nr-of-temperature-transitions';
 
 enum Benchmarks {
     ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK = 'ArtistsInTopTenWithTopTenTracksByCountryBenchmark',
@@ -33,7 +35,9 @@ enum Benchmarks {
     ZIP_PRIMES_BENCHMARK = 'ZipPrimesBenchmark',
     FIND_CLASS_BENCHMARK = 'FindClassBenchmark',
     ALL_MATCH_BENCHMARK = 'AllMatchBenchmark',
-    COLLAPSE_BENCHMARK = 'CollapseBenchmark',
+    COLLAPSE_BENCHMARK = 'QueryNrOfTemperatureTransitionsBenchmark',
+    QUERY_MAX_TEMP_BENCHMARK = 'QueryMaxTempBenchmark',
+    QUERY_NR_DISTINCT_TEMP_BENCHMARK = 'QueryNrOfDistinctTemperaturesBenchmark',
 }
 
 const BENCHMARK_NAMES = [
@@ -53,6 +57,8 @@ const BENCHMARK_NAMES = [
     Benchmarks.ZIP_PRIMES_BENCHMARK,
     Benchmarks.ALL_MATCH_BENCHMARK,
     Benchmarks.COLLAPSE_BENCHMARK,
+    Benchmarks.QUERY_MAX_TEMP_BENCHMARK,
+    Benchmarks.QUERY_NR_DISTINCT_TEMP_BENCHMARK,
 ];
 const BENCHMARK_DICTIONARY: {[key: string]: Benchmark} = {
     [Benchmarks.ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK]: new ArtistsInTopTenWithTopTenTracksByCountryBenchmark(),
@@ -61,7 +67,9 @@ const BENCHMARK_DICTIONARY: {[key: string]: Benchmark} = {
 
     [Benchmarks.FLATMAP_AND_REDUCE_BENCHMARK]: new FlatmapAndReduceBenchmark(),
     [Benchmarks.ALL_MATCH_BENCHMARK]: new AllMatchBenchmark(),
-    [Benchmarks.COLLAPSE_BENCHMARK]: new CollapseBenchmark(),
+    [Benchmarks.COLLAPSE_BENCHMARK]: new QueryNrOfTemperatureTransitions(),
+    [Benchmarks.QUERY_MAX_TEMP_BENCHMARK]: new QueryMaxTemperature(),
+    [Benchmarks.QUERY_NR_DISTINCT_TEMP_BENCHMARK]: new QueryNrOfDistinctTemperatures(),
 
     [Benchmarks.FIRST_IN_BEGINNING_BENCHMARK]: new FirstInBeginningBenchmark(),
     [Benchmarks.FIRST_IN_MIDDLE_BENCHMARK]: new FirstInMiddleBenchmark(),

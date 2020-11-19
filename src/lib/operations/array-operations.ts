@@ -110,4 +110,33 @@ export class ArrayOperations {
                 return false;
             }).length;
     }
+
+    queryMaxTemperature(input: string[]): number {
+        let isOddLine = false;
+        return Math.max(
+            ...input
+                .filter(s => s.charAt(0) !== '#') // Filter comments
+                .slice(1) // Skip line: Not available
+                .filter(() => {
+                    const result = isOddLine;
+                    isOddLine = !isOddLine;
+                    return result;
+                }) // Filter hourly info
+                .map(line => Number(line.substring(14, 16)))
+        );
+    }
+
+    queryNrOfDistinctTemperatures(input: string[]): number {
+        let isOddLine = false;
+        return input
+            .filter(s => s.charAt(0) !== '#') // Filter comments
+            .slice(1) // Skip line: Not available
+            .filter(() => {
+                const result = isOddLine;
+                isOddLine = !isOddLine;
+                return result;
+            }) // Filter hourly info
+            .map(line => Number(line.substring(14, 16)))
+            .filter((value, index, array) => array.indexOf(value) === index).length; // distinct
+    }
 }

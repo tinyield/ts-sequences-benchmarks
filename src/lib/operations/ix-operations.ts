@@ -19,6 +19,7 @@ import 'ix/add/iterable-operators/every';
 import 'ix/add/iterable-operators/take';
 import 'ix/add/iterable-operators/map';
 import 'ix/add/iterable-operators/skip';
+import 'ix/add/iterable-operators/max';
 import 'ix/add/iterable-operators/count';
 import 'ix/add/iterable-operators/expand';
 import './extensions/ix-extensions.js';
@@ -100,5 +101,30 @@ export class IxOperations {
                 ).map(line => line.substring(14, 16))
             )
         ).count();
+    }
+
+    queryMaxTemperature(input: IterableX<string>): number {
+        return IterableX.as(
+            new OddLinesIterable(
+                input
+                    .filter(s => s.charAt(0) !== '#') // Filter comments
+                    .skip(1)
+            )
+        )
+            .map(line => Number(line.substring(14, 16)))
+            .max();
+    }
+
+    queryNrOfDistinctTemperatures(input: IterableX<string>): number {
+        return IterableX.as(
+            new OddLinesIterable(
+                input
+                    .filter(s => s.charAt(0) !== '#') // Filter comments
+                    .skip(1)
+            )
+        )
+            .map((line: string) => Number(line.substring(14, 16)))
+            .distinct()
+            .count();
     }
 }
