@@ -18,7 +18,9 @@ export function options(): Options {
     };
 }
 
-export function blackhole<T>(elem: T): void {}
+export function blackhole<T>(elem: T): void {
+    Object.seal(elem);
+}
 
 function getBaselinePerformanceComparison(target: Benchmark, baseline: Benchmark): string {
     return (Math.round((target.hz * 100) / baseline.hz) / 100).toFixed(2);

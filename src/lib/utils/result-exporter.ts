@@ -4,15 +4,15 @@ export class ResultExporter {
     private static _instance: ResultExporter;
     private readonly data: string[];
 
+    private constructor() {
+        this.data = [];
+    }
+
     static instance(): ResultExporter {
         if (ResultExporter._instance === undefined) {
             ResultExporter._instance = new ResultExporter();
         }
         return ResultExporter._instance;
-    }
-
-    private constructor() {
-        this.data = [];
     }
 
     appendLine(line: string): void {

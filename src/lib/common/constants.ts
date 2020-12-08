@@ -1,0 +1,9 @@
+export const ODD = 1;
+export const EVEN = 2;
+export const UNDERSCORE = 'Underscore';
+export const TINYIELD = 'Tinyield';
+export const SEQUENCY = 'Sequency';
+export const LODASH = 'Lodash';
+export const ARRAYS = 'Arrays';
+export const LAZY = 'Lazy.JS';
+export const IX = 'Ix';

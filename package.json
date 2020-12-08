@@ -29,7 +29,7 @@
         "benchmark"
     ],
     "scripts": {
-        "benchmark": "node --no-warnings --max-old-space-size=2048 ./build/lib/index.js -s 10 -i 1 -t 0",
+        "benchmark": "node --no-warnings --max-old-space-size=6144 ./build/lib/index.js -s 1000 -i 3 -t 1 -o quickrun-1K.log",
         "fix:code-style": "gts fix",
         "test": "mocha ./build/test",
         "check:code-style": "gts check",

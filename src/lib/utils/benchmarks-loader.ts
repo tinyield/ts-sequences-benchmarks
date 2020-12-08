@@ -15,8 +15,8 @@ import {FindFixedIndexBenchmark} from '../find/find-fixed-index-benchmark';
 import {FindNumberBenchmark} from '../find/find-number-benchmark';
 import {FindStringBenchmark} from '../find/find-string-benchmark';
 import {BenchmarkCliArguments} from './benchmark-cli-arguments';
-import {QueryMaxTemperature} from '../odd.lines/query-max-temperature';
-import {QueryNrOfDistinctTemperatures} from '../odd.lines/query-nr-of-distinct-temperatures';
+import {QueryMaxTemperature} from '../odd/lines/query-max-temperature';
+import {QueryNrOfDistinctTemperatures} from '../odd/lines/query-nr-of-distinct-temperatures';
 import {QueryNrOfTemperatureTransitions} from '../collapse/query-nr-of-temperature-transitions';
 
 enum Benchmarks {

@@ -1,45 +1,157 @@
-import {blackhole} from '../utils/benchmark-utils';
-import {getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
-import {AbstractSequenceBenchmark} from '../abstract-sequence-benchmark';
+import {getSuite, options} from '../utils/benchmark-utils';
+import {getCLIArguments, getCollectionSizeLabel} from '../utils/benchmark-cli-arguments';
+import {IterableX} from 'ix/iterable';
+import * as Lazy from 'lazy.js';
+import * as _ from 'lodash';
+import {Query} from 'tinyield4ts';
+import {asSequence} from 'sequency';
+import * as __ from 'underscore';
+import {zip} from '../common/extensions/array-extensions';
+import {ARRAYS, IX, LAZY, LODASH, SEQUENCY, TINYIELD, UNDERSCORE} from '../common/constants';
+import {Benchmark} from '../benchmark';
 
-export class EveryNumberBenchmark extends AbstractSequenceBenchmark {
+/**
+ * EveryNumberBenchmark
+ * Every is an operation that, based on a user defined predicate, tests if all the
+ * elements of a sequence match between corresponding positions.
+ * <p>
+ * Pipeline:
+ * Sequence.of(1,2,...)
+ * .zip(Sequence.of(1,2,...), (elem1, elem2) => elem1 === elem2)
+ * .allMatch(elem => elem);
+ */
+export class EveryNumberBenchmark implements Benchmark {
+    /**
+     * The size of the Sequence for this benchmark
+     */
+    public COLLECTION_SIZE: number;
+    /**
+     * The data source used to benchmark
+     * This data is instantiated using the getNumbers method.
+     */
+    public data: number[];
+
+    /**
+     * Gets a {string} stating the name of this benchmark to better identify it
+     * in the benchmark logs.
+     *
+     * @returns {string} that identifies this benchmark
+     */
     name(): string {
         return `Every Number ${getCollectionSizeLabel()}`;
     }
 
-    ix(): void {
-        blackhole(this.ixOps.every<number, number>(this.ixUtils.getNumbers(), this.ixUtils.getNumbers(), (a, b) => a === b));
+    /**
+     * Gets an {number[]} with size COLLECTION_SIZE
+     *
+     * @returns {number[]} of size COLLECTION_SIZE
+     */
+    public getNumbers(): number[] {
+        const numbers = [];
+        for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+            numbers.push(i);
+        }
+        return numbers;
     }
 
-    lazy(): void {
-        blackhole(this.lazyOps.every<number, number>(this.lazyUtils.getNumbers(), this.lazyUtils.getNumbers(), (a, b) => a === b));
+    /**
+     * Sets up the data source to be used in this benchmark
+     */
+    setup(): void {
+        this.COLLECTION_SIZE = getCLIArguments().size;
+        this.data = this.getNumbers();
     }
 
-    lodash(): void {
-        blackhole(this.lodashOps.every<number, number>(this.lodashUtils.getNumbers(), this.lodashUtils.getNumbers(), (a, b) => a === b));
+    /**
+     * Zips two sequences of {@external IterableX} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    ix(): boolean {
+        return IterableX.of(...this.data)
+            .zip(IterableX.of(...this.data))
+            .map(([elem1, elem2]) => elem1 === elem2)
+            .every(elem => elem);
     }
 
-    tinyield(): void {
-        blackhole(
-            this.tinyieldOps.every<number, number>(this.tinyieldUtils.getNumbers(), this.tinyieldUtils.getNumbers(), (a, b) => a === b)
-        );
+    /**
+     * Zips two sequences of {@external Lazy} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    lazy(): boolean {
+        return (Lazy(this.data).zip(this.data) as any).map(([elem1, elem2]: number[]) => elem1 === elem2).every((elem: boolean) => elem);
     }
 
-    sequency(): void {
-        blackhole(this.sequencyOps.every(this.sequencyUtils.getNumbers(), this.sequencyUtils.getNumbers(), (a, b) => a === b));
+    /**
+     * Zips two sequences of {@external _.LoDashStatic} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    lodash(): boolean {
+        return _.chain(this.data)
+            .zipWith(_.chain(this.data).value(), (elem1, elem2) => elem1 === elem2)
+            .every(elem => elem)
+            .value();
     }
 
-    underscore(): void {
-        blackhole(
-            this.underscoreOps.every<number, number>(
-                this.underscoreUtils.getNumbers(),
-                this.underscoreUtils.getNumbers(),
-                (a, b) => a === b
-            )
-        );
+    /**
+     * Zips two sequences of {@external Query} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    tinyield(): boolean {
+        return Query.of(this.data)
+            .zip(Query.of(this.data), (elem1, elem2) => elem1 === elem2)
+            .allMatch(elem => elem);
     }
 
-    arrays(): void {
-        blackhole(this.arrayOps.every<number, number>(this.arrayUtils.getNumbers(), this.arrayUtils.getNumbers(), (a, b) => a === b));
+    /**
+     * Zips two sequences of {@external Sequence} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    sequency(): boolean {
+        return asSequence(this.data)
+            .zip(asSequence(this.data))
+            .map(([elem1, elem2]) => elem1 === elem2)
+            .all(elem => elem);
+    }
+
+    /**
+     * Zips two sequences of {@external __.UnderscoreStatic} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    underscore(): boolean {
+        return (__.chain(this.data).zip(__.chain(this.data).value()) as any)
+            .map(([elem1, elem2]: number[]) => elem1 === elem2)
+            .every((elem: boolean) => elem)
+            .value();
+    }
+
+    /**
+     * Zips two sequences of {@external Array} together mapping the combination of each value to a boolean.
+     *
+     * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
+     */
+    arrays(): boolean {
+        return zip([...this.data], [...this.data])
+            .map(pair => pair.left === pair.right)
+            .every(elem => elem);
+    }
+
+    run(): void {
+        this.setup();
+        const opts = options();
+        getSuite(this.name())
+            .add(UNDERSCORE, () => this.underscore(), opts)
+            .add(TINYIELD, () => this.tinyield(), opts)
+            .add(SEQUENCY, () => this.sequency(), opts)
+            .add(LODASH, () => this.lodash(), opts)
+            .add(ARRAYS, () => this.arrays(), opts)
+            .add(LAZY, () => this.lazy(), opts)
+            .add(IX, () => this.ix(), opts)
+            .run(options());
     }
 }
