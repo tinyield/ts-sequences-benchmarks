@@ -140,7 +140,7 @@ export class FirstInMiddleBenchmark implements Benchmark {
      * @returns {number} the first odd number in the sequence or null if none exists
      */
     arrays(): number {
-        return [...this.data].find(isOdd);
+        return [...this.data].filter(isOdd)[0];
     }
 
     run(): void {
