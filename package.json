@@ -80,7 +80,7 @@
         "lodash": "^4.17.19",
         "rxjs": "^6.5.2",
         "sequency": "^0.19.2",
-        "tinyield4ts": "^1.0.5",
+        "tinyield4ts": "^1.1.0",
         "underscore": "^1.10.2",
         "write": "^2.0.0"
     }
