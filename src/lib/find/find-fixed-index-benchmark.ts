@@ -87,19 +87,12 @@ export class FindFixedIndexBenchmark implements Benchmark {
     }
 
     /**
-     * Resets data sources and index to initial state
-     */
-    reset(): void {
-        this.a = this.getNumbers();
-        this.b = this.getNumbers(true);
-    }
-
-    /**
      * Sets up the data sources to be used in this benchmark
      */
     setup() {
         this.COLLECTION_SIZE = getCLIArguments().size;
-        this.reset();
+        this.a = this.getNumbers();
+        this.b = this.getNumbers(true);
     }
 
     /**
@@ -207,7 +200,6 @@ export class FindFixedIndexBenchmark implements Benchmark {
             .add(ARRAYS, () => this.arrays(), opts)
             .add(LAZY, () => this.lazy(), opts)
             .add(IX, () => this.ix(), opts)
-            .on('cycle', () => this.reset())
             .run(options());
     }
 }

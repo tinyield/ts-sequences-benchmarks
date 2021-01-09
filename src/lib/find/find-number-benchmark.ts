@@ -51,10 +51,15 @@ export class FindNumberBenchmark implements Benchmark {
      *
      * @returns {number[]} of size COLLECTION_SIZE
      */
-    public getNumbers(matcher = false): number[] {
-        const values = [];
-        for (let i = 0; i < this.COLLECTION_SIZE; i++) {
-            values.push(matcher ? -1 : i);
+    public getNumbers(matcher = false, values: number[] = []): number[] {
+        if (matcher) {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = -1;
+            }
+        } else {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = i;
+            }
         }
         return values;
     }
@@ -74,8 +79,7 @@ export class FindNumberBenchmark implements Benchmark {
      */
     reset(): void {
         this.index = 0;
-        this.a = this.getNumbers();
-        this.b = this.getNumbers(true);
+        this.b = this.getNumbers(true, this.b);
     }
 
     /**
@@ -84,7 +88,8 @@ export class FindNumberBenchmark implements Benchmark {
     setup() {
         this.index = 0;
         this.COLLECTION_SIZE = getCLIArguments().size;
-        this.reset();
+        this.a = this.getNumbers(false);
+        this.b = this.getNumbers(true);
     }
 
     /**

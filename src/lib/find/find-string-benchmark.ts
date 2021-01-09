@@ -51,10 +51,15 @@ export class FindStringBenchmark implements Benchmark {
      *
      * @returns {string[]} of size COLLECTION_SIZE
      */
-    public getStrings(matcher = false): string[] {
-        const values = [];
-        for (let i = 0; i < this.COLLECTION_SIZE; i++) {
-            values.push(`${matcher ? -1 : i}`);
+    public getStrings(matcher = false, values: string[] = []): string[] {
+        if (matcher) {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = '-1';
+            }
+        } else {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = `${i}`;
+            }
         }
         return values;
     }
@@ -74,8 +79,7 @@ export class FindStringBenchmark implements Benchmark {
      */
     reset(): void {
         this.index = 0;
-        this.a = this.getStrings();
-        this.b = this.getStrings(true);
+        this.b = this.getStrings(true, this.b);
     }
 
     /**
@@ -84,7 +88,8 @@ export class FindStringBenchmark implements Benchmark {
     setup() {
         this.index = 0;
         this.COLLECTION_SIZE = getCLIArguments().size;
-        this.reset();
+        this.a = this.getStrings();
+        this.b = this.getStrings(true);
     }
 
     /**

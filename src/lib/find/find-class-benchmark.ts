@@ -52,10 +52,15 @@ export class FindClassBenchmark implements Benchmark {
      *
      * @returns {Value[]} of size COLLECTION_SIZE
      */
-    public getValues(matcher = false): Value[] {
-        const values = [];
-        for (let i = 0; i < this.COLLECTION_SIZE; i++) {
-            values.push(new Value(matcher ? -1 : i));
+    public getValues(matcher = false, values: Value[] = []): Value[] {
+        if (matcher) {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = new Value(-1);
+            }
+        } else {
+            for (let i = 0; i < this.COLLECTION_SIZE; i++) {
+                values[i] = new Value(i);
+            }
         }
         return values;
     }
@@ -75,8 +80,7 @@ export class FindClassBenchmark implements Benchmark {
      */
     reset(): void {
         this.index = 0;
-        this.a = this.getValues();
-        this.b = this.getValues(true);
+        this.b = this.getValues(true, this.b);
     }
 
     /**
@@ -85,7 +89,8 @@ export class FindClassBenchmark implements Benchmark {
     setup() {
         this.index = 0;
         this.COLLECTION_SIZE = getCLIArguments().size;
-        this.reset();
+        this.a = this.getValues();
+        this.b = this.getValues(true);
     }
 
     /**
