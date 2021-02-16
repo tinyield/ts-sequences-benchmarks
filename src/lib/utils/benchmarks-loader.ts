@@ -18,6 +18,7 @@ import {BenchmarkCliArguments} from './benchmark-cli-arguments';
 import {QueryMaxTemperature} from '../odd/lines/query-max-temperature';
 import {QueryNrOfDistinctTemperatures} from '../odd/lines/query-nr-of-distinct-temperatures';
 import {QueryNrOfTemperatureTransitions} from '../collapse/query-nr-of-temperature-transitions';
+import {SameFringeBenchmark} from '../fringe/same-fringe-benchmark';
 
 enum Benchmarks {
     ARTISTS_IN_TOP_TEN_WITH_TOP_TEN_TRACKS_BY_COUNTRY_BENCHMARK = 'ArtistsInTopTenWithTopTenTracksByCountryBenchmark',
@@ -30,6 +31,7 @@ enum Benchmarks {
     EVERY_STRING_BENCHMARK = 'EveryStringBenchmark',
     FIRST_IN_END_BENCHMARK = 'FirstInEndBenchmark',
     EVERY_CLASS_BENCHMARK = 'EveryClassBenchmark',
+    SAME_FRINGE_BENCHMARK = 'SameFringeBenchmark',
     FIND_NUMBER_BENCHMARK = 'FindNumberBenchmark',
     FIND_STRING_BENCHMARK = 'FindStringBenchmark',
     ZIP_PRIMES_BENCHMARK = 'ZipPrimesBenchmark',
@@ -51,6 +53,7 @@ const BENCHMARK_NAMES = [
     Benchmarks.EVERY_STRING_BENCHMARK,
     Benchmarks.FIRST_IN_END_BENCHMARK,
     Benchmarks.EVERY_CLASS_BENCHMARK,
+    Benchmarks.SAME_FRINGE_BENCHMARK,
     Benchmarks.FIND_NUMBER_BENCHMARK,
     Benchmarks.FIND_STRING_BENCHMARK,
     Benchmarks.FIND_CLASS_BENCHMARK,
@@ -78,6 +81,7 @@ const BENCHMARK_DICTIONARY: {[key: string]: Benchmark} = {
     [Benchmarks.EVERY_NUMBER_BENCHMARK]: new EveryNumberBenchmark(),
     [Benchmarks.EVERY_STRING_BENCHMARK]: new EveryStringBenchmark(),
     [Benchmarks.EVERY_CLASS_BENCHMARK]: new EveryClassBenchmark(),
+    [Benchmarks.SAME_FRINGE_BENCHMARK]: new SameFringeBenchmark(),
 
     [Benchmarks.FIND_FIXED_INDEX_BENCHMARK]: new FindFixedIndexBenchmark(),
     [Benchmarks.FIND_NUMBER_BENCHMARK]: new FindNumberBenchmark(),

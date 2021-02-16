@@ -1,4 +1,6 @@
-export class Value {
+import {Comparable} from '../../../fringe/comparable';
+
+export class Value implements Comparable<Value> {
     public readonly value: number;
     public readonly text: string;
 
@@ -8,5 +10,9 @@ export class Value {
             .split('')
             .reverse()
             .join('');
+    }
+
+    compareTo(other: Value): number {
+        return this.value - other.value;
     }
 }
