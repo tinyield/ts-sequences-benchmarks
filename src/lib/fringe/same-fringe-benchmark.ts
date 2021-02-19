@@ -5,7 +5,7 @@ import * as Lazy from 'lazy.js';
 import * as _ from 'lodash';
 import * as __ from 'underscore';
 import {Advancer, Query, Traverser, Yield} from 'tinyield4ts';
-import {asSequence} from 'sequency';
+import Sequence, {asSequence} from 'sequency';
 
 import 'ix/add/iterable-operators/zip';
 import 'ix/add/iterable-operators/map';
@@ -64,10 +64,13 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     ix(): boolean {
+        return this.ixPipeline().every(elem => elem);
+    }
+
+    ixPipeline(): IterableX<boolean> {
         return IterableX.from(this.data)
             .zip(IterableX.from(this.data))
-            .map(([elem1, elem2]) => elem1.text === elem2.text)
-            .every(elem => elem);
+            .map(([elem1, elem2]) => elem1.text === elem2.text);
     }
 
     /**
@@ -76,9 +79,11 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     lazy(): boolean {
-        return (Lazy(Array.from(this.data)).zip(Array.from(this.data)) as any)
-            .map(([elem1, elem2]: Value[]) => elem1.text === elem2.text)
-            .every((elem: boolean) => elem);
+        return this.lazyPipeline().every((elem: boolean) => elem);
+    }
+
+    lazyPipeline(): any {
+        return (Lazy(Array.from(this.data)).zip(Array.from(this.data)) as any).map(([elem1, elem2]: Value[]) => elem1.text === elem2.text);
     }
 
     /**
@@ -87,10 +92,13 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     lodash(): boolean {
-        return _.chain(Array.from(this.data))
-            .zipWith(_.chain(Array.from(this.data)).value(), (elem1, elem2) => elem1.text === elem2.text)
-            .every(elem => elem)
+        return this.lodashPipeline()
+            .every((elem: boolean) => elem)
             .value();
+    }
+
+    lodashPipeline(): any {
+        return _.chain(Array.from(this.data)).zipWith(_.chain(Array.from(this.data)).value(), (elem1, elem2) => elem1.text === elem2.text);
     }
 
     /**
@@ -99,9 +107,11 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     tinyield(): boolean {
-        return this.getLeavesQuery(this.data)
-            .zip(this.getLeavesQuery(this.data), (elem1, elem2) => elem1.text === elem2.text)
-            .allMatch(elem => elem);
+        return this.tinyieldPipeline().allMatch(elem => elem);
+    }
+
+    tinyieldPipeline(): Query<boolean> {
+        return this.getLeavesQuery(this.data).zip(this.getLeavesQuery(this.data), (elem1, elem2) => elem1.text === elem2.text);
     }
 
     /**
@@ -110,10 +120,13 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     sequency(): boolean {
+        return this.sequencyPipeline().all(elem => elem);
+    }
+
+    sequencyPipeline(): Sequence<boolean> {
         return asSequence(this.data)
             .zip(asSequence(this.data))
-            .map(([elem1, elem2]) => elem1.text === elem2.text)
-            .all(elem => elem);
+            .map(([elem1, elem2]) => elem1.text === elem2.text);
     }
 
     /**
@@ -122,10 +135,15 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     underscore(): boolean {
-        return (__.chain(Array.from(this.data)).zip(__.chain(Array.from(this.data)).value()) as any)
-            .map(([elem1, elem2]: Value[]) => elem1.text === elem2.text)
+        return this.underscorePipeline()
             .every((elem: boolean) => elem)
             .value();
+    }
+
+    underscorePipeline(): any {
+        return (__.chain(Array.from(this.data)).zip(__.chain(Array.from(this.data)).value()) as any).map(
+            ([elem1, elem2]: Value[]) => elem1.text === elem2.text
+        );
     }
 
     /**
@@ -134,9 +152,11 @@ export class SameFringeBenchmark implements Benchmark {
      * @returns {boolean} true if all values in the zipped sequence are true, false otherwise.
      */
     arrays(): boolean {
-        return zip(Array.from(this.data), Array.from(this.data))
-            .map(pair => pair.left.text === pair.right.text)
-            .every(elem => elem);
+        return this.arraysPipeline().every(elem => elem);
+    }
+
+    arraysPipeline(): boolean[] {
+        return zip(Array.from(this.data), Array.from(this.data)).map(pair => pair.left.text === pair.right.text);
     }
 
     run(): void {
@@ -162,7 +182,7 @@ export class SameFringeBenchmark implements Benchmark {
                     this.getLeavesQuery(src.left).traverse(value => yld(value));
                 }
                 if (src.right != undefined) {
-                    this.getLeavesQuery(src.left).traverse(value => yld(value));
+                    this.getLeavesQuery(src.right).traverse(value => yld(value));
                 }
             }
         };

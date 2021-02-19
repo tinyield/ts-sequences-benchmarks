@@ -6,7 +6,7 @@ export class BinaryTreeIterator<T extends Comparable<T>> implements Iterator<T> 
     private current: BinaryTree<T>;
 
     constructor(src: BinaryTree<T>) {
-        this.current = src;
+        this.current = undefined;
         this.stack = [src];
     }
 

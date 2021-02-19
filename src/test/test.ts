@@ -13,6 +13,7 @@ import './first/first-in-middle-benchmark.spec';
 import './odd/lines/query-max-temperature.spec';
 import './odd/lines/query-nr-of-distinct-temperatures.spec';
 import './flatmap/flatmap-and-reduce-benchmark.spec';
+import './fringe/same-fringe-benchmark.spec';
 import './zip/artists-in-top-ten-with-top-ten-tracks-by-country-benchmark.spec';
 import './zip/zip-primes-benchmark.spec';
 import './zip/zip-top-artist-and-track-by-country-benchmark.spec';
