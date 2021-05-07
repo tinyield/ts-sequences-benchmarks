@@ -81,7 +81,7 @@
         "rxjs": "^6.5.2",
         "sequency": "^0.19.2",
         "tinyield4ts": "^1.1.0",
-        "underscore": "^1.10.2",
+        "underscore": "^1.12.1",
         "write": "^2.0.0"
     }
 }
